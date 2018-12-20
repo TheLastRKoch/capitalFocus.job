@@ -1,5 +1,5 @@
 # WorkControl
-A simple tool to mesure the work in a proyect
+A simple tool to mesure your time and goals 
 
 Thanks to:
 
