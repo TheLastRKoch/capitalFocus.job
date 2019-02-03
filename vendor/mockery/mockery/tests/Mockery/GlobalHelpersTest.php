@@ -37,8 +37,8 @@ class GlobalHelpersTest extends TestCase
     {
         $double = mock();
 
-        $this->assertInstanceOf('Mockery\MockInterface', $double);
-        $this->setExpectedException('Exception');
+        $this->assertInstanceOf(\Mockery\MockInterface::class, $double);
+        $this->expectException(\Exception::class);
         $double->foo();
     }
 
@@ -47,7 +47,7 @@ class GlobalHelpersTest extends TestCase
     {
         $double = spy();
 
-        $this->assertInstanceOf('Mockery\MockInterface', $double);
+        $this->assertInstanceOf(\Mockery\MockInterface::class, $double);
         $double->foo();
     }
 
@@ -57,7 +57,7 @@ class GlobalHelpersTest extends TestCase
         $className = "Class".uniqid();
         $double = namedMock($className);
 
-        $this->assertInstanceOf('Mockery\MockInterface', $double);
+        $this->assertInstanceOf(\Mockery\MockInterface::class, $double);
         $this->assertInstanceOf($className, $double);
     }
 }

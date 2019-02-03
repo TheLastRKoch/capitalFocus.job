@@ -11,31 +11,30 @@
 
 namespace Symfony\Component\Process\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 /**
  * @author Sebastian Marek <proofek@gmail.com>
  */
-class ProcessFailedExceptionTest extends \PHPUnit_Framework_TestCase
+class ProcessFailedExceptionTest extends TestCase
 {
     /**
      * tests ProcessFailedException throws exception if the process was successful.
      */
     public function testProcessFailedExceptionThrowsException()
     {
-        $process = $this->getMock(
-            'Symfony\Component\Process\Process',
-            array('isSuccessful'),
-            array('php')
-        );
+        $process = $this->getMockBuilder('Symfony\Component\Process\Process')->setMethods(['isSuccessful'])->setConstructorArgs([['php']])->getMock();
         $process->expects($this->once())
             ->method('isSuccessful')
             ->will($this->returnValue(true));
 
-        $this->setExpectedException(
-            '\InvalidArgumentException',
-            'Expected a failed process, but the given process was successful.'
-        );
+        if (method_exists($this, 'expectException')) {
+            $this->expectException(\InvalidArgumentException::class);
+            $this->expectExceptionMessage('Expected a failed process, but the given process was successful.');
+        } else {
+            $this->setExpectedException(\InvalidArgumentException::class, 'Expected a failed process, but the given process was successful.');
+        }
 
         new ProcessFailedException($process);
     }
@@ -53,11 +52,7 @@ class ProcessFailedExceptionTest extends \PHPUnit_Framework_TestCase
         $errorOutput = 'FATAL: Unexpected error';
         $workingDirectory = getcwd();
 
-        $process = $this->getMock(
-            'Symfony\Component\Process\Process',
-            array('isSuccessful', 'getOutput', 'getErrorOutput', 'getExitCode', 'getExitCodeText', 'isOutputDisabled', 'getWorkingDirectory'),
-            array($cmd)
-        );
+        $process = $this->getMockBuilder('Symfony\Component\Process\Process')->setMethods(['isSuccessful', 'getOutput', 'getErrorOutput', 'getExitCode', 'getExitCodeText', 'isOutputDisabled', 'getWorkingDirectory'])->setConstructorArgs([[$cmd]])->getMock();
         $process->expects($this->once())
             ->method('isSuccessful')
             ->will($this->returnValue(false));
@@ -90,7 +85,7 @@ class ProcessFailedExceptionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             "The command \"$cmd\" failed.\n\nExit Code: $exitCode($exitText)\n\nWorking directory: {$workingDirectory}\n\nOutput:\n================\n{$output}\n\nError Output:\n================\n{$errorOutput}",
-            $exception->getMessage()
+            str_replace("'php'", 'php', $exception->getMessage())
         );
     }
 
@@ -105,11 +100,7 @@ class ProcessFailedExceptionTest extends \PHPUnit_Framework_TestCase
         $exitText = 'General error';
         $workingDirectory = getcwd();
 
-        $process = $this->getMock(
-            'Symfony\Component\Process\Process',
-            array('isSuccessful', 'isOutputDisabled', 'getExitCode', 'getExitCodeText', 'getOutput', 'getErrorOutput', 'getWorkingDirectory'),
-            array($cmd)
-        );
+        $process = $this->getMockBuilder('Symfony\Component\Process\Process')->setMethods(['isSuccessful', 'isOutputDisabled', 'getExitCode', 'getExitCodeText', 'getOutput', 'getErrorOutput', 'getWorkingDirectory'])->setConstructorArgs([[$cmd]])->getMock();
         $process->expects($this->once())
             ->method('isSuccessful')
             ->will($this->returnValue(false));
@@ -140,7 +131,7 @@ class ProcessFailedExceptionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             "The command \"$cmd\" failed.\n\nExit Code: $exitCode($exitText)\n\nWorking directory: {$workingDirectory}",
-            $exception->getMessage()
+            str_replace("'php'", 'php', $exception->getMessage())
         );
     }
 }
