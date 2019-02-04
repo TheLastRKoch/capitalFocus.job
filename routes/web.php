@@ -20,3 +20,14 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/Dashboard', 'HomeController@Dashboard')->name('home');
+
+Route::get('about', function () {
+    return view('Task.create');
+})->name('taskv2.create');
+
+Route::group(['prefix' => 'task'], function () {
+	Route::get('create', [
+	    'uses' => 'TaskController@getCreate',
+	    'as' => 'task.create'
+	]);
+});
