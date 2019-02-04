@@ -12,17 +12,27 @@ class TaskController extends Controller
     }
     
     public function getList(){
-    	
+    	$Tasks = Task::orderby('Name', 'desc');
+    	//return view('task.list', ['tasks'=>$Tasks]);
+        return response()->json($Tasks);
     }
     
-    public function getCreate(){
-    	return view('task.create');
+    public function getAdd(){
+    	return view('task.add');
     }
     
-    public function postCreate(Request $request){
-    	$task = new Task([
-    		''	
-		])
+    public function postAdd(Request $request){
+        $task = new Task([
+            'Name' => $request->input('Name'),
+            'State' => $request->input('State'),
+            'Difficulty' => $request->input('Difficulty'),
+            'Priority' => $request->input('Priority'),
+            'StartDate' => $request->input('StartDate'),
+            'TimePostponed' => $request->input('TimePostponed'),
+            'EndDate' => $request->input('EndDate'),
+            'PeriodTime' => $request->input('PeriodTime')
+        ]);
+        $task->save();
     }
     
     public function getUpdate($id){

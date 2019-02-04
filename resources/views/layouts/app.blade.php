@@ -13,10 +13,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
-    <!-- Styles -->
-    <link href="{{ secure_asset('css/app.css') }}" media="all" rel="stylesheet" type="text/css" />
-    <link href="{{ secure_asset('css/scrolling-nav.css') }}" media="all" rel="stylesheet" type="text/css" />
-    <link href="{{ secure_asset('css/bootstrap.min.css') }}" media="all" rel="stylesheet" type="text/css" />
+    @include('partials.CSS')
 
 </head>
 <body id="page-top">
@@ -84,12 +81,8 @@
 		</div>
 	</footer>
     		
-    <!-- Scripts -->
-    <script src="{{ secure_asset('js/app.js') }}" ></script>
-    <script type="text/javascript" src="{{secure_asset('js/bootstrap.min.js')}}"></script>
-    <script src="{{ secure_asset('js/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ secure_asset('js/scrolling-nav.js') }}"></script>
-    <script type="text/javascript" src="{{secure_asset('js/Chart.bundle.js')}}"></script>
-    <script src="{{ secure_asset('js/ChartManagement.js') }}"></script>
+    @include('partials.Scripts')
+
+    @stack('ViewCustomScripts')
 </body>
 </html>

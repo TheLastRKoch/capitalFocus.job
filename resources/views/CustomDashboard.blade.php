@@ -1,5 +1,11 @@
 @extends('layouts.app')
 
+@push('ViewCustomScripts')
+    <!--Chart Scripts-->
+    <script type="text/javascript" src="{{asset('js/Chart.bundle.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/ChartManagement.js')}}"></script>
+@endpush()
+
 @section('content')
 
   <section id="PageHeader">
