@@ -43,4 +43,14 @@ Route::group(['prefix' => 'task'], function () {
 	    'uses' => 'TaskController@getAdd',
 	    'as' => 'task.add'
 	]);
+
+    Route::get('update/{id}', [
+        'uses' => 'TaskController@getUpdate',
+        'as' => 'task.update'
+    ]);
+
+    Route::get('delete/{id}', [
+        'uses' => 'TaskController@getDelete',
+        'as' => 'task.delete'
+    ]);
 });

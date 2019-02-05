@@ -23,35 +23,35 @@
                        <form action="{{route('task.add')}}" method="post">
                            <div class="form-group">
                                <label for="title">Name</label>
-                               <input type="text" class="form-control" id="txtName" name="Name">
+                               <input type="text" class="form-control" id="txtName" name="Name" value="{{$Task->Name}}">
                            </div>
                            <div class="form-group">
                                <label for="content">State</label>
-                               <input type="text" class="form-control" id="content" name="State">
+                               <input type="text" class="form-control" id="content" name="State" value="{{$Task->State}}">
                            </div>
                            <div class="form-group">
                                <label for="content">Difficulty</label>
-                               <input type="text" class="form-control" id="txtDifficulty" name="Difficulty">
+                               <input type="text" class="form-control" id="txtDifficulty" name="Difficulty" value="{{$Task->Difficulty}}">
                            </div>
                            <div class="form-group">
                                <label for="content">Priority</label>
-                               <input type="text" class="form-control" id="txtPriority" name="Priority">
+                               <input type="text" class="form-control" id="txtPriority" name="Priority" value="{{$Task->Priority}}">
                            </div>
                            <div class="form-group">
                                <label for="content">Start Date</label>
-                               <input type="text" class="form-control" id="txtStartDate" name="StartDate">
+                               <input type="text" class="form-control" id="txtStartDate" name="StartDate" value="{{$Task->StartDate}}">
                            </div>
                            <div class="form-group">
                                <label for="content">Time Postponed</label>
-                               <input type="text" class="form-control" id="txtTimePostponed" name="TimePostponed">
+                               <input type="text" class="form-control" id="txtTimePostponed" name="TimePostponed" value="{{$Task->TimePostponed}}">
                            </div>
                            <div class="form-group">
                                <label for="content">End Date</label>
-                               <input type="text" class="form-control" id="txtEndDate" name="EndDate">
+                               <input type="text" class="form-control" id="txtEndDate" name="EndDate" value="{{$Task->EndDate}}">
                            </div>
                            <div class="form-group">
                                <label for="content">Period Time</label>
-                               <input type="text" class="form-control" id="txtPeriodTime" name="PeriodTime">
+                               <input type="text" class="form-control" id="txtPeriodTime" name="PeriodTime" value="{{$Task->PeriodTime}}">
                            </div>
                            {{csrf_field()}}
                            <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>

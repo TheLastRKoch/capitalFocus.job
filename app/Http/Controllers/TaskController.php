@@ -23,11 +23,12 @@ class TaskController extends Controller
     }
     
     public function getAdd(){
-    	return view('task.add');
+    	$Task = new Task([]);
+        return view('task.add', ['Task'=>$Task]);
     }
     
     public function postAdd(Request $request){
-        $task = new Task([
+        $Task = new Task([
             'Name' => $request->input('Name'),
             'State' => $request->input('State'),
             'Difficulty' => $request->input('Difficulty'),
@@ -37,14 +38,18 @@ class TaskController extends Controller
             'EndDate' => $request->input('EndDate'),
             'PeriodTime' => $request->input('PeriodTime')
         ]);
-        $task->save();
+        $Task->save();
+        return redirect()->route('task.list');
     }
     
     public function getUpdate($id){
-    	
+        $Task = Task::find($id);
+        return view('task.add', ['Task'=>$Task]);
     }
     
-    public function getDelete(){
-    	
+    public function getDelete($id){
+        $Task = Task::find($id);
+        $Task->delete();
+        return redirect()->route('task.list');
     }
 }
