@@ -72,15 +72,7 @@
     <!--Body content-->
     @yield('content')
     
-	<!-- Footer -->
-	<footer class="py-15 bg-dark">
-		<div class="container">
-			<p class="m-0 text-center text-white">Copyright &copy;
-				<script>Date.now().Year()</script>
-			</p>
-		</div>
-	</footer>
-    		
+
     @include('partials.Scripts')
 
     @stack('ViewCustomScripts')

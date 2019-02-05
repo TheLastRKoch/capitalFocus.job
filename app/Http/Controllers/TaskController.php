@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Task;
+use Repositories\TaskRepository;
 
 class TaskController extends Controller
 {
@@ -12,9 +13,9 @@ class TaskController extends Controller
     }
     
     public function getList(){
-    	$Tasks = Task::orderby('Name', 'desc');
+    	$Tasks = Task::all();
     	//return view('task.list', ['tasks'=>$Tasks]);
-        return response()->json($Tasks);
+        return $Tasks->toJson();
     }
     
     public function getAdd(){
