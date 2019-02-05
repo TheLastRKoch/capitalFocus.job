@@ -14,7 +14,7 @@ class TaskController extends Controller
     
     public function getList(){
     	$Tasks = Task::all();
-    	return view('task.list', ['tasks'=>$Tasks]);
+    	return view('task.list', ['Tasks'=>$Tasks]);
     }
 
     public function getListJson(){
