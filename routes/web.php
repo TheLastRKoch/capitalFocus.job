@@ -49,6 +49,11 @@ Route::group(['prefix' => 'task'], function () {
         'as' => 'task.update'
     ]);
 
+    Route::post('update', [
+        'uses' => 'TaskController@postUpdate',
+        'as' => 'task.update'
+    ]);
+
     Route::get('delete/{id}', [
         'uses' => 'TaskController@getDelete',
         'as' => 'task.delete'

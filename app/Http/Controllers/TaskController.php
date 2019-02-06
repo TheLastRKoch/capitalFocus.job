@@ -46,6 +46,20 @@ class TaskController extends Controller
         $Task = Task::find($id);
         return view('task.add', ['Task'=>$Task]);
     }
+
+    public function postUpdate(Request $request){
+        $OldTask = Task::find($request->input('id'));
+        $OldTask->Name =$request->input('Name');
+        $OldTask->State =$request->input('State');
+        $OldTask->Difficulty =$request->input('Difficulty');
+        $OldTask->Priority =$request->input('Priority');
+        $OldTask->StartDate =$request->input('StartDate');
+        $OldTask->TimePostponed =$request->input('TimePostponed');
+        $OldTask->EndDate =$request->input('EndDate');
+        $OldTask->PeriodTime =$request->input('PeriodTime');
+        $OldTask->save();
+        return redirect()->route('task.list');
+    }
     
     public function getDelete($id){
         $Task = Task::find($id);

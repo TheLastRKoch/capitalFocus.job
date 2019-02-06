@@ -20,7 +20,12 @@
            <div class="offset-1 col-xl-10 offset-1">
                <div class="card">
                    <div class="card-body">
-                       <form action="{{route('task.add')}}" method="post">
+
+                           @if(isset($Task))
+                                <form action="{{route('task.update')}}" method="post">
+                           @else
+                                <form action="{{route('task.add')}}" method="post">
+                           @endif
                            <div class="form-group">
                                <label for="title">Name</label>
                                <input type="text" class="form-control" id="txtName" name="Name" value="{{$Task->Name}}">
