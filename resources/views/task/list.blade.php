@@ -29,7 +29,7 @@
                                 @foreach($Tasks as $Task)
                                     <tr>
                                         <td scope="col">
-                                            <a href="{{route('task.update',['id'=>$Task->id])}}">{{$Task->Name}}</a>
+                                            <a href="{{route('task.edit',['id'=>$Task->id])}}">{{$Task->Name}}</a>
                                         </td>
                                         <td scope="col">{{$Task->State}}</td>
                                         <td scope="col">{{$Task->Difficulty}}</td>

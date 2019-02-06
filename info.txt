@@ -1,0 +1,5 @@
+  @if(isset($Task))
+                                <form action="{{route('task.update')}}" method="post">
+                           @else
+                                <form action="{{route('task.add')}}" method="post">
+                           @endif

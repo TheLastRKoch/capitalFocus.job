@@ -29,6 +29,7 @@ class TaskController extends Controller
     
     public function postAdd(Request $request){
         $Task = new Task([
+            'id' => $request->input('id'),
             'Name' => $request->input('Name'),
             'State' => $request->input('State'),
             'Difficulty' => $request->input('Difficulty'),
@@ -42,9 +43,9 @@ class TaskController extends Controller
         return redirect()->route('task.list');
     }
     
-    public function getUpdate($id){
+    public function getEdit($id){
         $Task = Task::find($id);
-        return view('task.add', ['Task'=>$Task]);
+        return view('task.update', ['Task'=>$Task]);
     }
 
     public function postUpdate(Request $request){

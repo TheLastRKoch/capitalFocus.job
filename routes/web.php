@@ -34,19 +34,19 @@ Route::group(['prefix' => 'task'], function () {
        'as' => 'task.listJson'
     ]);
 
-    Route::post('add', [
-        'uses' => 'TaskController@postAdd',
-        'as' => 'task.add'
-    ]);
-
     Route::get('add', [
 	    'uses' => 'TaskController@getAdd',
 	    'as' => 'task.add'
 	]);
 
+    Route::post('add', [
+        'uses' => 'TaskController@postAdd',
+        'as' => 'task.add'
+    ]);
+
     Route::get('update/{id}', [
-        'uses' => 'TaskController@getUpdate',
-        'as' => 'task.update'
+        'uses' => 'TaskController@getEdit',
+        'as' => 'task.edit'
     ]);
 
     Route::post('update', [

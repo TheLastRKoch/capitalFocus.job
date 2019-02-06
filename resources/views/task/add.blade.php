@@ -21,11 +21,11 @@
                <div class="card">
                    <div class="card-body">
 
-                           @if(isset($Task))
-                                <form action="{{route('task.update')}}" method="post">
-                           @else
-                                <form action="{{route('task.add')}}" method="post">
-                           @endif
+                       <form action="{{route('task.edit')}}" method="post">
+
+                           <div class="form-group d-none">
+                               <input type="text" class="form-control" id="txtId" name="Name" value="{{$Task->id}}">
+                           </div>
                            <div class="form-group">
                                <label for="title">Name</label>
                                <input type="text" class="form-control" id="txtName" name="Name" value="{{$Task->Name}}">
