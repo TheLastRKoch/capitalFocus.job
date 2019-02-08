@@ -24,8 +24,8 @@
                             <form action="{{route('task.update')}}" method="post">
 
                                 <div class="form-group disabled">
-                                    <label for="title">ID</label>
-                                    <input type="text" class="form-control disabled" id="txtId" name="Name" value="{{$Task->id}}">
+                                    <label for="ID">ID</label>
+                                    <input type="text" class="form-control disabled" id="txtId" name="id" value="{{$Task->id}}">
                                 </div>
                                 <div class="form-group">
                                     <label for="title">Name</label>
