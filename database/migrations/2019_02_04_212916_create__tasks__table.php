@@ -18,12 +18,12 @@ class CreateTasksTable extends Migration
             $table->timestamps();
             $table->string('Name');
             $table->string('State');
-            $table->string('Difficulty');
-            $table->string('Priority');
-            $table->dateTime('StartDate');
-            $table->string('TimePostponed');
-            $table->dateTime('EndDate');
-            $table->string('PeriodTime');
+            $table->string('Difficulty')->nullable();
+            $table->string('Priority')->nullable();
+            $table->dateTime('StartDate')->nullable();
+            $table->string('TimePostponed')->nullable();
+            $table->dateTime('EndDate')->nullable();
+            $table->string('PeriodTime')->nullable();
         });
     }
 
