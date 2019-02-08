@@ -25,7 +25,7 @@
 
                                 <div class="form-group disabled">
                                     <label for="ID">ID</label>
-                                    <input type="text" class="form-control disabled" id="txtId" name="id" value="{{$Task->id}}">
+                                    <input type="text" class="form-control disabled" disabled id="txtId" name="id" value="{{$Task->id}}">
                                 </div>
                                 <div class="form-group">
                                     <label for="title">Name</label>

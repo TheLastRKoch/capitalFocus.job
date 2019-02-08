@@ -21,7 +21,7 @@
                <div class="card">
                    <div class="card-body">
 
-                       <form action="{{route('task.edit')}}" method="post">
+                       <form action="{{route('task.add')}}" method="post">
 
                            <div class="form-group d-none">
                                <input type="text" class="form-control" id="txtId" name="Name" value="{{$Task->id}}">
