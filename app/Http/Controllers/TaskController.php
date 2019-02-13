@@ -4,16 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Task;
-use Repositories\TaskRepository;
+use App\Utils\TimeManagement;
+use Carbon\Carbon;
 
 class TaskController extends Controller
 {
+    protected $timeManagement;
+
+    public function __construct(TimeManagement $timeManagement){
+        $this->timeManagement = $timeManagement;
+    }
+
     public function getTask($id){
-    	
+        $StartDate = Carbon::parse('08/01/14');
+        $EndDate = Carbon::parse('08/29/14');
+        //echo $this->timeManagement->CalcPeriodTime($StartDate, $EndDate);
+        //echo $this->timeManagement->CalcTimePostponed(Carbon::parse('08/13/13'));
     }
     
     public function getList(){
-    	$Tasks = Task::all();
+        $Tasks = Task::all();
     	return view('task.list', ['Tasks'=>$Tasks]);
     }
 

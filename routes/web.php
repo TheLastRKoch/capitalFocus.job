@@ -29,6 +29,11 @@ Route::group(['prefix' => 'task'], function () {
         'as' => 'task.list'
     ]);
 
+    Route::get('get/{id}', [
+        'uses' => 'TaskController@getTask',
+        'as' => 'task.get'
+    ]);
+
     Route::get('listJson',[
        'uses' => 'TaskController@getListJson',
        'as' => 'task.listJson'
