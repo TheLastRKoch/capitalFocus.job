@@ -2,7 +2,7 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
 
-class ServiceGmail:
+class EmailService:
 
     def __init__(self, service_account_file, scopes):
         self.credentials = service_account.Credentials.from_service_account_file(
