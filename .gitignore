@@ -136,5 +136,4 @@ dmypy.json
 .ve
 .vscode
 /resources
-/src/dummy.py
 /examples
