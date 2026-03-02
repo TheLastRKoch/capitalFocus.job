@@ -1,0 +1,389 @@
+Delivered-To: capital.focus.engine@gmail.com
+Received: by 2002:a05:6674:1481:b0:6bb:a7ff:c693 with SMTP id qd1csp1808916pxc;
+        Mon, 2 Mar 2026 05:36:03 -0800 (PST)
+X-Received: by 2002:a05:620a:371a:b0:8c6:acca:4a29 with SMTP id af79cd13be357-8cbc8e552c8mr1560908585a.13.1772458562921;
+        Mon, 02 Mar 2026 05:36:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772458562; cv=none;
+        d=google.com; s=arc-20240605;
+        b=CCkbYV0L0I/ycm8ZBuYZnv53Lg6TANqFN15vI2F1EbiEW/E1w1LVL1ozTDTxIxEmGN
+         YuPZhdU8IWeV0ysyIKThxIwBoxcof185gZliImzPh8+UmrJ0Oa1wotNC4l5MF0GI2TSy
+         qXZ4BYY/94p5knu5hPp3+8zCTW2A/kJt4rOheht1pBk5QcK/iUyMNZLkQL6SLOsSiIqz
+         c+oDSTgT/WHoy2HnJasupSiIRgPeFMtTzlJCtpZHQ2jnOCsSq+9r8WSbBMnDKAmBKJBJ
+         SUl/jRfiKYugtQLbc3hJOIapGwj4kLU3VClnhAS3oOQitVHbsTW9fhum9F73PnJcaeDV
+         aORw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=mime-version:subject:references:in-reply-to:message-id:to:from:date
+         :dkim-signature;
+        bh=vKHXy9W1aWLVNzNjZcLSnBsSzDciKz510OCiKtIUdfI=;
+        fh=msFfe5TOv4BQN90hnwl8efqEPCQpr0m9LgA73gLTKSA=;
+        b=gO9hxLgBZPoH3EekQNjvqreOmUfnO3hG/9VhkAjbjAFcy3BFag9RxZnrOGDdElRYL5
+         fmpQNlRoaD4/DC2/aPtS1sAPfbJKINHus5REXu8rhoPVWHaCnFwzjP2R1COj4Tg0FdTt
+         w6av6kxTcF8FmvD5Bku9yQjaU5NFu+AGZRIyuhlHOP3tFhhZ39RAwcCBUDnx1eenr55v
+         tGjtf8UQi8XkqETzp8FEDr/S/ErZtLxQER1pn1+Hvh1/nbplXxFgCk4S5bsh4TGafuR9
+         UCwox9tmF6zV2luOJnx9TB2YY/yV6JDCo6nBxJLU+JI29oPI332O+Ok/VVbWNcpp524r
+         oKMA==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@icloud.com header.s=1a1hai header.b=G2Wudfay;
+       spf=pass (google.com: domain of sergio31.96@icloud.com designates 57.103.77.171 as permitted sender) smtp.mailfrom=sergio31.96@icloud.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=icloud.com
+Return-Path: <sergio31.96@icloud.com>
+Received: from outbound.st.icloud.com (p-east2-cluster3-host4-snip4-10.eps.apple.com. [57.103.77.171])
+        by mx.google.com with ESMTPS id af79cd13be357-8cbbf77d77dsi1485399885a.620.2026.03.02.05.36.02
+        for <capital.focus.engine@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2026 05:36:02 -0800 (PST)
+Received-SPF: pass (google.com: domain of sergio31.96@icloud.com designates 57.103.77.171 as permitted sender) client-ip=57.103.77.171;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@icloud.com header.s=1a1hai header.b=G2Wudfay;
+       spf=pass (google.com: domain of sergio31.96@icloud.com designates 57.103.77.171 as permitted sender) smtp.mailfrom=sergio31.96@icloud.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=icloud.com
+Received: from outbound.st.icloud.com (unknown [127.0.0.2]) by p00-icloudmta-asmtp-us-east-1a-60-percent-5 (Postfix) with ESMTPS id CEB951800120 for <capital.focus.engine@gmail.com>; Mon,
+  2 Mar 2026 13:36:00 +0000 (UTC)
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1772458562; x=1775050562; bh=vKHXy9W1aWLVNzNjZcLSnBsSzDciKz510OCiKtIUdfI=; h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type:x-icloud-hme; b=G2WudfayPRJpA//WdDPxyco8ADJ+Tbm+YtZX7UoI7F1YiaZ6Ctdp2qWzoqGJUun//moBjRlE9xGcbGCKTyM9zUMipWm2y/WqF/ryDv6NpbKqJoP/NmFUO9mQaN9EMMMRgA4ajHDmeKg8w/idniLqDNXZunYQbg9pXRmfk0bNGibm+ZC6q/g4JCB4XwupZJg2W0Hq3vaOI+k9e7ye56hsYq/SdVA2CcPG4dZe4nX0auO8kPWMqPMkkkoRVFxF1nsTICANWYa9DAIibDB+dbXuN+K/AttHzeqThSXw6IBXefDhyU2ZQIfOgP1A7julpv/UWn9BCx55nB8v+zuYhKLD7Q==
+Received: from [192.168.1.35] (unknown [17.42.251.67]) by p00-icloudmta-asmtp-us-east-1a-60-percent-5 (Postfix) with ESMTPSA id EE16218000BC for <capital.focus.engine@gmail.com>; Mon,
+  2 Mar 2026 13:35:59 +0000 (UTC)
+Date: Mon, 2 Mar 2026 07:35:26 -0600
+From: Sergio S <sergio31.96@icloud.com>
+To: "capital.focus.engine@gmail.com" <capital.focus.engine@gmail.com>
+Message-ID: <7ffa91c9-783e-436e-8549-362533cfcfa8@Spark>
+In-Reply-To: <WRxF8pJgSNmR5-kQ_lrc9g@geopod-ismtpd-50>
+References: <WRxF8pJgSNmR5-kQ_lrc9g@geopod-ismtpd-50>
+Subject: Fwd: Notificación de transacción SERVICENTRO TROVA EL G 01-03-2026 - 20:05
+X-Readdle-Message-ID: 7ffa91c9-783e-436e-8549-362533cfcfa8@Spark
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="69a5923d_109cf92e_77e6"
+X-Proofpoint-GUID: g-btyNlVrM1QhY-8MoVWydd94RPVU-WT
+X-Authority-Info-Out: v=2.4 cv=G70R0tk5 c=1 sm=1 tr=0 ts=69a59240 cx=c_apl:c_apl_out:c_pps a=YrL12D//S6tul8v/L+6tKg==:117 a=YrL12D//S6tul8v/L+6tKg==:17 a=Yq5XynenixoA:10 a=5KLPUuaC_9wA:10 a=x7bEGLp0ZPQA:10 a=F3x5nHMeoGEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=y-JCZhkJAAAA:8 a=oMnodYPqAAAA:8 a=v3ZZPjhaAAAA:8 a=CMvL0dluloNQxUtK8LQA:9 a=QEXdDO2ut3YA:10 a=C3C7CJiuAAAA:8 a=SSmOFEACAAAA:8 a=QIhwiTrUtgbngwOU41oA:9 a=UFMFUBeZ7XU-UUwe:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=KQqxNPgzF0kA:10 a=sze66DBnuIL9hzyfG3TB:22 a=p_sq6daX02_TcNzZcwXy:22 a=dZFb1ri4wjUkcuLcBy_g:22
+X-Proofpoint-ORIG-GUID: g-btyNlVrM1QhY-8MoVWydd94RPVU-WT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDExNCBTYWx0ZWRfX1nyuY3AboRdu YvcYAbb0A6y8lYwQ1SaXHfsfL7zGcmMpLmyu7zRskM6ssPnM6hSzJS8xZZEa8p6Fk1mslbPw2p+ HBZCdcfLaoX0TgCt7Kmm1T4W++k2fDTwwM9BQaDPIWlFp1EFLABXf0nxc4naQ5SgEqTze13BOMV FZ0NIu6YKdvpK2i7eQ2Un6iJPPnSAW0abMzljGdR1l9GA8VJo/dK95EjEIJErhQCN2iIES+Kmig NMdy22X2KZb3UUW/Ls/RqUvcqKjLWCZs2nxnCvYdCUJgB14IeMtuUMR+h1GnVPA8IU5qRrnEl5h FUF6k498r4CJVSnUgKE2tPdjBQ0vuhKUBdzIDd8+VmBR5SGLBVPu/tTO3z1GWM=
+X-Proofpoint-Virus-Version: 
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 lowpriorityscore=0 phishscore=0 mlxlogscore=978 clxscore=1011 adultscore=0 mlxscore=0 suspectscore=0 spamscore=0 malwarescore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2603020114
+X-JNJ: AAAAAAABtvqoSIjKIpXskymFD+9Q4WiEK+kBkK2Dx00fC62J7AUbuMXNDaiYjXvL+dmWf9xhv8lu6DRLnS4HjNGubtCy+9DqjhTO/CNuGrL/9FlP9HJbUXsemPGEL+kC8l4M9k2yYkVQGNUT7FPxleTjM3fpZv6R2gDbN2AWgTFpHn0Vy91WtP7fLwoeTp2z4FLqGzC3To8UdCWlcV92tcai8aaRp6RRe9UkcfaI4yFOEUcQnX6MpdyPhTzHsqbMYVA//bnnoin7X1xYXa73sMy8Eb9EQTV7rH/j7uHU7Qften7Mz3G323oYBnyr/KWch+J8ejf3h9+WxpUVxNIjYTcEEUjbUdMz0fZ9SIEsjyk7dVGDUhADZYK7Y4qfyQe5gEj04vcGOeRr+NG9DFi0ULBv7ipbbwlK0IypXCB+dwKWNEesySqpHcP4zOgxvBnAoneWifg5RMhu3oMjGGPXD9tI7sw3x36UM+8k2SCNzd+hQFpBlHmhO7/OMZUk1qCWgMFnRoXr5ckiPzgbNeI1dRTKRo7kQT92bbBPkUn0SuIKrgkB+yjmyOVPjdpnTRjdEwgZA3OHhQjpKw8cldTR5RyIv4i8XDfpTfKdL939ufRGll1wbvy4hMYO8EAOP1dgmpmWCW/TMOciDHTK8GJXvXk+nz4LWMjFmqxRFtExKl/EQNlpRB1hcA==
+
+--69a5923d_109cf92e_77e6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+
+---------- Forwarded message ----------
+From: Notificaci=C3=B3n <notificacion@notificacionesbaccr.com>
+Date: Mar 1, 2026 at 8:06=E2=80=AFPM -0600
+To: SERGIO LUIS SEGURA VIDAL <sergio31.96@icloud.com>
+Subject: Notificaci=C3=B3n de transacci=C3=B3n SERVICENTRO TROVA EL G 01-03=
+-2026 - 20:05
+
+> Hola SERGIO LUIS SEGURA VIDAL
+> A continuaci=C3=B3n le detallamos la transacci=C3=B3n realizada:
+> Comercio:
+> SERVICENTRO TROVA EL G
+> Ciudad y pa=C3=ADs:
+> CARTAGO, Costa Rica
+> Fecha:
+> Mar 1, 2026, 20:05
+> MASTER
+> ************1406
+> Autorizaci=C3=B3n:
+> 019819
+> Referencia:
+> 95711481
+> Tipo de Transacci=C3=B3n:
+> COMPRA
+> Monto:
+> CRC 17,007.00
+> =C2=BFTiene dudas sobre esta transacci=C3=B3n?
+> Puede contactarnos v=C3=ADa WhatsApp presionando aqu=C3=AD. O bien escr=
+=C3=ADbanos al 8742-9595 agregando la palabra =E2=80=9Calerta=E2=80=9D.
+> Este comprobante de su transacci=C3=B3n hace referencia al art=C3=ADculo =
+18 y 19 del reglamento del sistema de tarjetas de pago establecidos por el =
+BCCR.
+> Conozca m=C3=A1s de nuestras promociones, productos y servicios ingresand=
+o a: https://www.baccredomatic.com/es-cr
+> Comunicado v=C3=A1lido =C3=BAnicamente para Costa Rica.
+> Pol=C3=ADticas de privacidad =C2=A0=C2=A0=C2=A0|=C2=A0=C2=A0=C2=A0 T=C3=
+=A9rminos y condiciones
+> TODOS LOS DERECHOS RESERVADOS. 2026 =C2=A9 BAC INTERNATIONAL BANK
+
+--69a5923d_109cf92e_77e6
+Content-Type: multipart/related; boundary="69a5923d_3352255a_77e6"
+
+--69a5923d_3352255a_77e6
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+
+<html xmlns=3D"http://www.w3.org/1999/xhtml">
+<head>
+<title></title>
+</head>
+<body>
+<div name=3D"messageReplySection">---------- Forwarded message ----------<b=
+r />
+<b>From:</b> Notificaci=C3=B3n &lt;notificacion@notificacionesbaccr.com&gt;=
+<br />
+<b>Date:</b> Mar 1, 2026 at 8:06=E2=80=AFPM -0600<br />
+<b>To:</b> SERGIO LUIS SEGURA VIDAL &lt;sergio31.96@icloud.com&gt;<br />
+<b>Subject:</b> Notificaci=C3=B3n de transacci=C3=B3n SERVICENTRO TROVA EL =
+G 01-03-2026 - 20:05<br />
+<br />
+<blockquote type=3D"cite">
+<div align=3D"center">
+<table align=3D"center" cellpadding=3D"0" cellspacing=3D"0" border=3D"0" wi=
+dth=3D"100%" style=3D"margin: 0 auto;">
+<tr>
+<td align=3D"center" width=3D"600" class=3D"all">
+<table class=3D"all" width=3D"600" border=3D"0" cellspacing=3D"0" cellpaddi=
+ng=3D"0">
+<tr>
+<td><img src=3D"https://www.baccredomatic.com/sites/default/files/2025-12/c=
+r_header-rojo-generico-BAC.jpg" width=3D"600" style=3D"display:block; width=
+:100%; height:auto;" /></td>
+</tr>
+<tr>
+<td>
+<table cellspacing=3D"0" cellpadding=3D"0" border=3D"0" align=3D"center" bg=
+color=3D"#FFFFFF" width=3D"600" class=3D"all">
+<tr>
+<td class=3D"w10" width=3D"30"></td>
+<td style=3D"padding-top: 20px; padding-bottom: 30px;">
+<h2 style=3D"color: #E4032B; margin-bottom: 10px;">Hola SERGIO LUIS SEGURA =
+VIDAL</h2>
+<h5 style=3D"color: #6d6e71;">A continuaci=C3=B3n le detallamos la transacc=
+i=C3=B3n realizada:</h5>
+</td>
+<td class=3D"w10" width=3D"30"></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<table width=3D"100%" cellspacing=3D"0" cellpadding=3D"0" border=3D"0">
+<tr>
+<td class=3D"w10" width=3D"30"></td>
+<td>
+<table align=3D"center" width=3D"100%" cellspacing=3D"0" cellpadding=3D"0" =
+border=3D"0">
+<tr style=3D"background-color: #f1f2f2; height: 33px;">
+<td style=3D"color:#6d6e71; padding: 0px 20px;">
+<p>Comercio:</p>
+</td>
+<td style=3D"color: #000000 !important; font-weight: bold;">
+<p>SERVICENTRO TROVA EL G</p>
+</td>
+</tr>
+<tr style=3D"background-color: #ffffff; height: 33px;">
+<td style=3D"color:#6d6e71; padding: 0px 20px;">
+<p>Ciudad y pa=C3=ADs:</p>
+</td>
+<td>
+<p>CARTAGO, Costa Rica</p>
+</td>
+</tr>
+<tr style=3D"background-color: #f1f2f2; height: 33px;">
+<td style=3D"color:#6d6e71; padding: 0px 20px;">
+<p>Fecha:</p>
+</td>
+<td style=3D"color: #000000; font-weight: bold;">
+<p>Mar 1, 2026, 20:05</p>
+</td>
+</tr>
+<tr style=3D"background-color: #ffffff; height: 33px;">
+<td style=3D"color:#6d6e71; padding: 0px 20px;">
+<p>MASTER</p>
+</td>
+<td>
+<p>************1406</p>
+</td>
+</tr>
+<tr style=3D"background-color: #f1f2f2; height: 33px;">
+<td style=3D"color:#6d6e71; padding: 0px 20px;">
+<p>Autorizaci=C3=B3n:</p>
+</td>
+<td>
+<p>019819</p>
+</td>
+</tr>
+<tr style=3D"background-color: #ffffff; height: 33px;">
+<td style=3D"color:#6d6e71; padding: 0px 20px;">
+<p>Referencia:</p>
+</td>
+<td>
+<p>95711481</p>
+</td>
+</tr>
+<tr style=3D"background-color: #f1f2f2; height: 33px;">
+<td style=3D"color:#6d6e71; padding: 0px 20px;">
+<p>Tipo de Transacci=C3=B3n:</p>
+</td>
+<td>
+<p>COMPRA</p>
+</td>
+</tr>
+<tr style=3D"background-color: #ffffff; height: 80px;">
+<td style=3D"color: #6d6e71; font-weight: bold; padding: 0px 20px; font-siz=
+e: 20px;">
+<p>Monto:</p>
+</td>
+<td style=3D"color: #E4032B; font-weight: bold; font-size: 20px;">
+<p>CRC 17,007.00</p>
+</td>
+</tr>
+</table>
+</td>
+<td class=3D"w10" style=3D"font-size:0px; line-height:0px;" width=3D"30"></=
+td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td height=3D"10" style=3D"font-size:0px; line-height:0px;"></td>
+</tr>
+<tr>
+<td style=3D"padding-left: 30px; padding-right: 30px;"><a href=3D"https://u=
+9894042.ct.sendgrid.net/ls/click?upn=3Du001.cpM7m6a-2BIPx6QzTb-2BGZ96uRi5-2=
+FZeu0w10il0mnl0ZGjwFjeSWE6T9tCw2C8v9Dqnf02I_dCVw7iisVtze8Fx4rpYyKZ8jQnOedjK=
+Jh-2FmmbTiC35W8POYjSYdcrfpMjHg81sn73Of7SHZx-2BYFHUl4r-2BxqmbWSdAZVrV0c-2BA-=
+2FTvTAdDhBWO5dQKwhEbL0P3X0qvBDcXFXskS7SvH6V2UhrJIw89fnysRI-2BhXzY2nXgHlcP6g=
+4ZGIVWcmKxLE-2FVuPjX1Wbs7rA-2FsfVmk-2BF5nImtt7NONwA-3D-3D" target=3D"_blank=
+"><img src=3D"cid:publicidad.jpeg" width=3D"100%" alt=3D"BANNER PROMOCIONAL=
+" style=3D"width:100%; height:auto;" /></a></td>
+</tr>
+<tr>
+<td style=3D"padding-top: 10px; padding-bottom: 20px;">
+<table width=3D"100%" cellspacing=3D"0" cellpadding=3D"0" border=3D"0">
+<tbody>
+<tr>
+<td class=3D"w10" style=3D"font-size:0px; line-height:0px;" width=3D"30"></=
+td>
+<td>
+<table width=3D"100%" align=3D"center" border=3D"0">
+<tr>
+<td width=3D"60" align=3D"center" valign=3D"middle"><img src=3D"https://www=
+.baccredomatic.com/sites/default/files/styles/medium/public/2026-01/cr_vouc=
+herverde_Alarma.png" alt=3D"Icono Alarma" width=3D"40" height=3D"40" /></td=
+>
+<td width=3D"100%" align=3D"left" style=3D"padding: 15px;">
+<p style=3D"font-size: 12px; font-weight: bold; color: #6d6e71; padding-bot=
+tom: 5px; margin: 0;">=C2=BFTiene dudas sobre esta transacci=C3=B3n?</p>
+<p style=3D"font-size: 12px; color: #6d6e71; margin: 0;">Puede contactarnos=
+ v=C3=ADa WhatsApp <a style=3D"text-decoration: underline; color: #1075BB;"=
+ href=3D"https://u9894042.ct.sendgrid.net/ls/click?upn=3Du001.cpM7m6a-2BIPx=
+6QzTb-2BGZ96pLtqjZXRy78NsgS1jazulqM-2FDbYZt0e-2Fggmnwrm84PVSuWD_dCVw7iisVtz=
+e8Fx4rpYyKZ8jQnOedjKJh-2FmmbTiC35W8POYjSYdcrfpMjHg81sn7uobGpxBZasE5rwOeUHNS=
+9dAgxHvoQos6OhU2iU-2FhzhpRIFd-2BRMDwvSej5La1462MyA5i4bGzqBvjxD4sWJah-2FyUaJ=
+HC-2Bd-2BT4yDh5GIZvTxVuQItA8ijazBUusl1BY-2FweBVO8H-2BtJ5ecQElYkDLmU3Q-3D-3D=
+">presionando aqu=C3=AD</a>. O bien escr=C3=ADbanos al <a style=3D"text-dec=
+oration: underline; color: #1075BB;" href=3D"https://u9894042.ct.sendgrid.n=
+et/ls/click?upn=3Du001.cpM7m6a-2BIPx6QzTb-2BGZ96pLtqjZXRy78NsgS1jazulqM-2FD=
+bYZt0e-2Fggmnwrm84PV52FO_dCVw7iisVtze8Fx4rpYyKZ8jQnOedjKJh-2FmmbTiC35W8POYj=
+SYdcrfpMjHg81sn77bw03yZqt6hQO-2Bp7ztEHvJyc4VWY3NpyMh-2Bp3zLd4V1-2FOkJ-2FTv9=
+v1iENQzMZvCE4ob1xBStxeLNMhU6W3h2N-2BXtUwnWLnJQ9suSvxbDCJxQxlVVa9W0lDYRkFUWG=
+UX1Wxv3Hi7PMbpYA8gDaLANlvw-3D-3D">8742-9595</a> agregando la palabra <b>=E2=
+=80=9Calerta=E2=80=9D.</b></p>
+</td>
+</tr>
+<tr>
+<td width=3D"60" align=3D"center" valign=3D"middle"><img src=3D"https://www=
+.baccredomatic.com/sites/default/files/styles/medium/public/2026-01/cr_vouc=
+herverde_Documentos.png" alt=3D"Icono Documento" width=3D"40" height=3D"40"=
+ /></td>
+<td width=3D"100%" align=3D"left" style=3D"padding: 15px;">
+<p style=3D"font-size: 12px; color: #6d6e71; margin: 0;">Este comprobante d=
+e su transacci=C3=B3n hace referencia al art=C3=ADculo 18 y 19 del reglamen=
+to del sistema de tarjetas de pago establecidos por el BCCR.</p>
+</td>
+</tr>
+<tr>
+<td width=3D"60" align=3D"center" valign=3D"middle"><img src=3D"https://www=
+.baccredomatic.com/sites/default/files/styles/medium/public/2026-01/cr_vouc=
+herverde_Promo.png" alt=3D"Icono Promocional" width=3D"40" height=3D"40" />=
+</td>
+<td width=3D"100%" align=3D"left" style=3D"padding: 15px;">
+<p style=3D"font-size: 12px; color: #6d6e71; margin: 0;">Conozca m=C3=A1s d=
+e nuestras promociones, productos y servicios ingresando a: <a style=3D"tex=
+t-decoration: underline; color: #1075BB;" href=3D"https://u9894042.ct.sendg=
+rid.net/ls/click?upn=3Du001.cpM7m6a-2BIPx6QzTb-2BGZ96kLJp6H3G4lDkdfW-2FA24O=
+lbtGCwKcKTYRqAuLNkdHAs553Cf_dCVw7iisVtze8Fx4rpYyKZ8jQnOedjKJh-2FmmbTiC35W8P=
+OYjSYdcrfpMjHg81sn71szjbL-2BOHSgUxviNjZ-2F2xK48PFrxG1KpmSZPvDMZSVd6GhNHkqbT=
+-2FgAKvnHPl-2Bj98Su9vgTmc4jLJGy8ua0wRzIfRs1gf15SC6vAZq-2FKXr1mH-2FQbq1p96QE=
+q6QEkWjEcCeOW2zhPYe18IBU-2BXWZdmQ-3D-3D">https://www.baccredomatic.com/es-c=
+r</a></p>
+</td>
+</tr>
+</table>
+</td>
+<td class=3D"w10" style=3D"font-size:0px; line-height:0px;" width=3D"30"></=
+td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<table align=3D"center" width=3D"100%" border=3D"0" cellpadding=3D"0" cells=
+pacing=3D"0">
+<tr>
+<td style=3D"background-color:#f2f2f2; padding: 20px;" align=3D"center">
+<p style=3D"font-size:12px; color: #4D4D4F; margin: 0px;">Comunicado v=C3=
+=A1lido =C3=BAnicamente para <b>Costa Rica</b>.</p>
+</td>
+</tr>
+<tr>
+<td style=3D"background-color:#c8102e; padding: 20px;" align=3D"center">
+<p style=3D"margin:0; line-height:1.5; color:#ffffff; font-size:10px;"><a h=
+ref=3D"https://u9894042.ct.sendgrid.net/ls/click?upn=3Du001.cpM7m6a-2BIPx6Q=
+zTb-2BGZ96kLJp6H3G4lDkdfW-2FA24OlaVoOfrR0q7OFSORIRSY4awWQi2Du6gcCFM2524vVf-=
+2BwWM1zgNgg2NGgCzwCRrd-2Bd1UuBS1BuxP9tTTU39qMbfHbF1EWaLJTbKTnBmLACRihZb9Vd7=
+uJJ5zhXXCjJZgAlC8j1OeZAeiZWpJWtEzACfcgNiwFxOZHAuYiMUqrTNSRQ-3D-3D-ob4_dCVw7=
+iisVtze8Fx4rpYyKZ8jQnOedjKJh-2FmmbTiC35W8POYjSYdcrfpMjHg81sn7eG-2FKuZwTm0K4=
+CpIIqjlXbegjDcembUeLYBu2DviIv3NirMNjkEb3keHInxuGcwBJI5TbRcshhD8bgLsA2KW2Ylp=
+wI8loccE8Lrna2bcQGko9-2BEU0KevVb3O8MpoPOduxqWAXGB30GlINhZAs9CrvSQ-3D-3D" st=
+yle=3D"text-decoration:none; color:#ffffff; font-weight:bold;">Pol=C3=ADtic=
+as de privacidad</a> <strong>&#160;&#160;&#160;|&#160;&#160;&#160;</strong>=
+ <a href=3D"https://u9894042.ct.sendgrid.net/ls/click?upn=3Du001.cpM7m6a-2B=
+IPx6QzTb-2BGZ96kLJp6H3G4lDkdfW-2FA24OlaVoOfrR0q7OFSORIRSY4awWQi2Du6gcCFM252=
+4vVf-2BwW3HfZHuo47igOYY4LEGTznpCHcT2le19pSazzYe2SrHIS8GAL3pwPwO4JhmRhGgF96Z=
+PZdeYlkCsbVwEOW4tVEEUF0t25TsMuTk5OPdTma4Cvx3oYiKcq3lq29T1m3GQV6osL5mlxumApw=
+Hi7HiDdk-3DMBpd_dCVw7iisVtze8Fx4rpYyKZ8jQnOedjKJh-2FmmbTiC35W8POYjSYdcrfpMj=
+Hg81sn708WmKqUu1WtdQ8x0sz-2FoVXBWA7QG7YsIX8wwBDUjQ-2BsTGIXEeaZU53jfVTDK-2Ba=
+zP72kGAvGWFX4nD-2B37ne4LSzMQqZLa6soJQeQDSmPF0yo9SDSO242I9QU6Wj11MxKFA-2FCLs=
+NMd9m3gVRWB4gdv4A-3D-3D" style=3D"text-decoration:none; color:#ffffff; font=
+-weight:bold;">T=C3=A9rminos y condiciones</a></p>
+<p style=3D"margin:5px 0 0 0; line-height:1.5; color:#ffffff; font-weight:b=
+old; font-size:10px;">TODOS LOS DERECHOS RESERVADOS. 2026 =C2=A9 BAC INTERN=
+ATIONAL BANK</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<img src=3D"https://u9894042.ct.sendgrid.net/wf/open?upn=3Du001.p78fNcOh4AH=
+YCe3vyk9367SxLoZhxLfRUM95W8RwP1CgyyWJ9Hf780Egb-2FM-2Bd4GZsjpmO73oJmSZO2NDO0=
+uvhWYqSMCO8eXjdLRtvfn7XxjDAmpmA5Lljdn5sfriFpsTo5lNrDCyBkDgM2YaW88ZVQWaf1iV6=
+TcABOrMqqHo1v4J4yYtd1HnWZLHTLUvvH-2FQ9lOonbLgxNvdjgPb-2FYYJDg-3D-3D" alt=3D=
+"" width=3D"1" height=3D"1" border=3D"0" style=3D"height:1px !important;wid=
+th:1px !important;border-width:0 !important;margin-top:0 !important;margin-=
+bottom:0 !important;margin-right:0 !important;margin-left:0 !important;padd=
+ing-top:0 !important;padding-bottom:0 !important;padding-right:0 !important=
+;padding-left:0 !important;" /></blockquote>
+</div>
+</body>
+</html>
+
+--69a5923d_3352255a_77e6
+Content-Type: image/jpeg
+Content-Transfer-Encoding: base64
+Content-ID: <publicidad.jpeg>
+Content-Disposition: inline; filename="publicidad.jpeg"
+
+
+--69a5923d_3352255a_77e6--
+--69a5923d_109cf92e_77e6--
