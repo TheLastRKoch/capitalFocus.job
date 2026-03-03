@@ -18,6 +18,21 @@ CREDENTIALS_FILE = 'credentials.json'
 TOKEN_FILE = 'token.json'
 
 
+def _find_body_parts(parts):
+    html_part = None
+    text_part = None
+
+    for part in parts:
+        mime = part.get('mimeType')
+        body = part.get('body', {})
+        if mime == 'text/html' and 'data' in body:
+            html_part = body['data']
+        elif mime == 'text/plain' and 'data' in body:
+            text_part = body['data']
+        if 'parts' in part:
+            _find_body_parts(part['parts'])
+
+
 def get_gmail_service():
     creds = None
 
@@ -33,7 +48,7 @@ def get_gmail_service():
             flow = InstalledAppFlow.from_client_secrets_file(
                 CREDENTIALS_FILE, SCOPES)
             creds = flow.run_local_server(port=0)
-        
+
         # Save the credentials for the next run
         with open(TOKEN_FILE, 'w') as token:
             token.write(creds.to_json())
@@ -41,19 +56,8 @@ def get_gmail_service():
     return build('gmail', 'v1', credentials=creds)
 
 
-def _find_body_parts(parts):
-    html_part = None
-    text_part = None
-
-    for part in parts:
-        mime = part.get('mimeType')
-        body = part.get('body', {})
-        if mime == 'text/html' and 'data' in body:
-            html_part = body['data']
-        elif mime == 'text/plain' and 'data' in body:
-            text_part = body['data']
-        if 'parts' in part:
-            _find_body_parts(part['parts'])
+def get_email_list(service, query):
+    return service.users().messages().list(userId='me', q=query).execute()
 
 
 def get_email_html(service,
@@ -70,7 +74,8 @@ def get_email_html(service,
 
     payload = msg.get('payload', {})
 
-    # Quick path: body directly in payload (rare)
+    breakpoint()
+
     if 'body' in payload and 'data' in payload['body']:
         data = payload['body']['data']
         return base64.urlsafe_b64decode(data).decode('utf-8', errors='replace')
@@ -153,25 +158,15 @@ if __name__ == '__main__':
 
     service = get_gmail_service()
 
-    # Replace with real message IDs you want to test
-    breakpoint()
+    email_list = get_email_list(service, "label:job-new")["messages"]
 
-    TEST_MESSAGE_ID = "194a2b3c4d5e6f78"  # ← change this
-
-    # 1. Get HTML
-    html_content = get_email_html(service, TEST_MESSAGE_ID)
-    if html_content:
-        print("\nHTML preview (first 300 chars):")
-        print(html_content[:300] +
-              "..." if len(html_content) > 300 else html_content)
-
-        # Optional: save to file
-        with open("email_output.html", "w", encoding="utf-8") as f:
-            f.write(html_content)
-        print("→ Saved to email_output.html")
+    for email in email_list:
+        html_content = get_email_html(service, email["id"])
+        print(html_content)
+        breakpoint()
 
     # 2. Move to label
-    success = move_to_label(service,
-                            TEST_MESSAGE_ID,
-                            label_name="Receipts/2025",
-                            create_if_missing=True)
+    # success = move_to_label(service,
+    #                        TEST_MESSAGE_ID,
+    #                        label_name="Receipts/2025",
+    #                        create_if_missing=True)
