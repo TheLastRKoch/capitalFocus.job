@@ -47,16 +47,29 @@ class GmailService:
         for part in parts:
             mime = part.get('mimeType')
             body = part.get('body', {})
-            if mime == 'text/html' and 'data' in body:
-                html_part = body['data']
-            elif mime == 'text/plain' and 'data' in body:
-                text_part = body['data']
+
+            if mime == 'text/plain':
+                if 'data' in body:
+                    text_part = body['data']
+
+            if mime in ['text/html', 'multipart/related']:
+                if 'data' in body:
+                    html_part = body['data']
+
             if 'parts' in part:
-                self._find_body_parts(part['parts'])
+                child_text, child_html = self._find_body_parts(part['parts'])
+
+                if child_text:
+                    text_part = child_text
+                if child_html:
+                    html_part = child_html
 
         return text_part, html_part
 
     def def_get_email_content(self, email):
+        text = None
+        html = None
+
         payload = email.get('payload', {})
 
         if 'body' in payload and 'data' in payload['body']:
@@ -68,13 +81,18 @@ class GmailService:
             encoded_text, encoded_html = self._find_body_parts(
                 payload['parts'])
 
-        # TODO: I need to test all the possible payloads
-        return base_64_decode(encoded_text), base_64_decode(encoded_html)
+        if encoded_text:
+            text = base_64_decode(encoded_text)
 
-    def get_email(self,
-                  message_id: str,
-                  prefer_html: bool = True,
-                  fallback_to_text: bool = True) -> Optional[str]:
+        if encoded_html:
+            html = base_64_decode(encoded_html)
+
+        return text, html
+
+    def get_message(self,
+                    message_id: str,
+                    prefer_html: bool = True,
+                    fallback_to_text: bool = True) -> Optional[str]:
         try:
             return self.engine.users().messages().get(userId='me',
                                                       id=message_id,

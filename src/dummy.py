@@ -1,25 +1,30 @@
-# from services.scraper import ScraperService
-# import json
 
-# scraper = ScraperService()
 
 # html_raw_text = ""
 
 # with open("view.html", "r") as file:
 #     html_raw_text = file.read()
 
-# result = scraper.bac(html_raw_text)
-# print(json.dumps(result, indent=4))
 
+from services.scraper import ScraperService
 from services.gmail import GmailService
+import json
+
+scraper = ScraperService()
 
 gmail = GmailService()
 
 email_list = gmail.get_email_list("label:job-new")["messages"]
 
 for email in email_list:
-    email = gmail.get_email(email["id"])
-    text, html = gmail.def_get_email_content(email)
-    print(text)
-    print(html)
-    breakpoint()
+    message = gmail.get_message(email["id"])
+
+    # file_path = get_unique_filepath("message.json")
+    # with open(file_path, "w") as file:
+    #     file.write(json.dumps(message, indent=4))
+
+    text, html = gmail.def_get_email_content(message)
+    result = scraper.bac(html)
+    print()
+    print()
+    print(json.dumps(result, indent=4))
