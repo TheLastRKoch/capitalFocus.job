@@ -66,7 +66,7 @@ class GmailService:
 
         return text_part, html_part
 
-    def def_get_email_content(self, email):
+    def get_email_content(self, email):
         text = None
         html = None
 
@@ -105,6 +105,13 @@ class GmailService:
         return self.engine.users().messages().list(userId='me',
                                                    q=query).execute()
 
+    def get_label_list(self):
+        return self.engine.users().labels().list(userId='me').execute()
+
+    '''
+    FIXME: This method add a label but do not remove the previos label
+    current_labels = message.get('labelIds', [])
+    '''
     def move_to_label(self,
                       message_id: str,
                       label_name: str,
@@ -143,9 +150,7 @@ class GmailService:
                                                   id=message_id,
                                                   body=body).execute()
 
-            print(f"✓ Moved {message_id} → {label_name}")
             return True
 
-        except HttpError as e:
-            print(f"API error while moving {message_id}: {e}")
+        except HttpError:
             return False

@@ -1,10 +1,7 @@
-
-
 # html_raw_text = ""
 
 # with open("view.html", "r") as file:
 #     html_raw_text = file.read()
-
 
 from services.scraper import ScraperService
 from services.gmail import GmailService
@@ -23,7 +20,7 @@ for email in email_list:
     # with open(file_path, "w") as file:
     #     file.write(json.dumps(message, indent=4))
 
-    text, html = gmail.def_get_email_content(message)
+    text, html = gmail.get_email_content(message)
     result = scraper.bac(html)
     print()
     print()
