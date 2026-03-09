@@ -2,6 +2,15 @@ from pathlib import Path
 
 
 def get_unique_filepath(filepath: str) -> Path:
+    """
+    Generate a unique file path by appending a counter if the file already exists.
+
+    Args:
+        filepath (str): The initial desired file path.
+
+    Returns:
+        Path: A path object ensuring the path does not already exist.
+    """
     path = Path(filepath)
 
     if not path.exists():

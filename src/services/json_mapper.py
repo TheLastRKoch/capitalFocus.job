@@ -39,7 +39,14 @@ class JsonMapperService:
         return [self.transform(item) for item in source_json_list]
 
 
-def bac(scraped_json):
+def bac(scraped_json: Any) -> None:
+    """
+    Placeholder method for a generic BAC extraction on scraped JSON.
+    Currently does nothing.
+    
+    Args:
+        scraped_json (Any): The scraped JSON data to process.
+    """
     [
         {""}
     ]
@@ -48,7 +55,7 @@ def bac(scraped_json):
 class TestJsonMapper(unittest.TestCase):
     
     def test_case_a_deep_nesting(self) -> None:
-        """Case A (Deep Nesting)"""
+        """Test deep nesting case (Case A)."""
         schema = {"target": ("a", "b", "c")}
         mapper = JsonMapperService(schema)
         input_data = {"a": {"b": {"c": "success"}}}
@@ -56,7 +63,7 @@ class TestJsonMapper(unittest.TestCase):
         self.assertEqual(mapper.transform(input_data), expected)
 
     def test_case_b_short_nesting(self) -> None:
-        """Case B (Short Nesting)"""
+        """Test short nesting case (Case B)."""
         schema = {"target": ("user", "id")}
         mapper = JsonMapperService(schema)
         input_data = {"user": {"id": 101}}
@@ -64,7 +71,7 @@ class TestJsonMapper(unittest.TestCase):
         self.assertEqual(mapper.transform(input_data), expected)
 
     def test_case_c_missing_key(self) -> None:
-        """Case C (Missing Key)"""
+        """Test missing key extraction (Case C)."""
         schema = {"target": ("company", "rank")}
         mapper = JsonMapperService(schema)
         input_data = {"company": {"name": "Test"}}

@@ -6,12 +6,24 @@ from utils.text import TextUtils
 
 
 class ScraperService:
+    """Service for scraping and extracting text patterns from HTML."""
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """Initialize the scraper service with text utility."""
         self.text_utils = TextUtils()
 
-    def bac(self, html_raw_text):
-        result = {}
+    def bac(self, html_raw_text: str) -> dict[str, str]:
+        """
+        Parse raw HTML text, extract specific paragraph contents, and match them against 
+        a predefined regex pattern to build a structured result dictionary.
+
+        Args:
+            html_raw_text (str): The raw HTML string to be processed.
+
+        Returns:
+            dict[str, str]: A dictionary containing matching keys and their corresponding text values.
+        """
+        result: dict[str, str] = {}
         content = ""
 
         html_raw_text = self.text_utils.normalize_text(
