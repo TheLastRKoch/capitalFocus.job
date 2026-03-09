@@ -1,0 +1,10 @@
+{
+    "date": "2025-02-15T17:11:01.000Z",
+    "commerce": "DCL*Uber Rides",
+    "amount": 2390,
+    "location": "San Jose, Costa Rica",
+    "card": 1406,
+    "authorization": "732096",
+    "reference": "29674622",
+    "transactionType": "COMPRA"
+}
