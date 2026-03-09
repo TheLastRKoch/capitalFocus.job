@@ -20,8 +20,10 @@ TOKEN_FILE = 'src/secrets/token.json'
 
 
 class GmailService:
+    """Service for interacting with the Gmail API."""
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """Initialize the Gmail service and authenticate the user."""
         creds = None
 
         if os.path.exists(TOKEN_FILE):
@@ -40,7 +42,16 @@ class GmailService:
 
         self.engine = build('gmail', 'v1', credentials=creds)
 
-    def _find_body_parts(self, parts):
+    def _find_body_parts(self, parts: list[dict]) -> tuple[Optional[str], Optional[str]]:
+        """
+        Recursively search for plain text and HTML body parts within email payloads.
+
+        Args:
+            parts (list[dict]): A list of MIME parts from the email payload.
+
+        Returns:
+            tuple[Optional[str], Optional[str]]: A tuple containing the text part and HTML part, if found.
+        """
         html_part = None
         text_part = None
 
@@ -66,7 +77,16 @@ class GmailService:
 
         return text_part, html_part
 
-    def get_email_content(self, email):
+    def get_email_content(self, email: dict) -> tuple[Optional[str], Optional[str]]:
+        """
+        Extract the text and HTML content from a given email message.
+
+        Args:
+            email (dict): The email message retrieved from the Gmail API.
+
+        Returns:
+            tuple[Optional[str], Optional[str]]: A tuple of the decoded plain text and HTML content.
+        """
         text = None
         html = None
 
@@ -92,7 +112,18 @@ class GmailService:
     def get_message(self,
                     message_id: str,
                     prefer_html: bool = True,
-                    fallback_to_text: bool = True) -> Optional[str]:
+                    fallback_to_text: bool = True) -> Optional[dict]:
+        """
+        Retrieve the full content of a specific email message by its ID.
+
+        Args:
+            message_id (str): The ID of the message to retrieve.
+            prefer_html (bool): Whether to prefer HTML content (unused in this method but kept for signature).
+            fallback_to_text (bool): Whether to fallback to text content (unused in this method).
+
+        Returns:
+            Optional[dict]: The message payload, or None if an error occurred.
+        """
         try:
             return self.engine.users().messages().get(userId='me',
                                                       id=message_id,
@@ -101,11 +132,26 @@ class GmailService:
             print(f"Error fetching message {message_id}: {e}")
             return None
 
-    def get_email_list(self, query):
+    def get_email_list(self, query: str) -> dict:
+        """
+        Query for a list of emails matching a specific search string.
+
+        Args:
+            query (str): The search query to filter emails (e.g., 'label:inbox').
+
+        Returns:
+            dict: A response dictionary containing a list of matching messages.
+        """
         return self.engine.users().messages().list(userId='me',
                                                    q=query).execute()
 
-    def get_label_list(self):
+    def get_label_list(self) -> dict:
+        """
+        Retrieve a list of all custom and system labels for the user.
+
+        Returns:
+            dict: A dictionary containing the list of labels.
+        """
         return self.engine.users().labels().list(userId='me').execute()
 
     '''
@@ -116,6 +162,17 @@ class GmailService:
                       message_id: str,
                       label_name: str,
                       create_if_missing: bool = False) -> bool:
+        """
+        Move an email to a specific label by removing the 'INBOX' label and adding the target label.
+
+        Args:
+            message_id (str): The ID of the message to move.
+            label_name (str): The name of the target label.
+            create_if_missing (bool): Whether to create the label if it does not already exist.
+
+        Returns:
+            bool: True if the operation was successful, False otherwise.
+        """
         try:
             results = self.engine.users().labels().list(userId='me').execute()
             labels = results.get('labels', [])
