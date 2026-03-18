@@ -15,7 +15,7 @@ class ScraperService:
         """Initializes the ScraperService with a text utility."""
         self.text_utils = TextUtils()
 
-    def _extract_content_from_html(self, html_raw_text: str, tag_query:str) -> str:
+    def _extract_content_from_html(self, html_raw_text: str, tag_query: str) -> str:
         """
         Parses raw HTML and extracts text content from paragraph tags.
 
@@ -61,7 +61,7 @@ class ScraperService:
         Returns:
             A dictionary of the transaction details.
         """
-        content = self._extract_content_from_html(html_raw_text)
+        content = self._extract_content_from_html(html_raw_text=html_raw_text, tag_query="q")
         matches = re.findall(self._BAC_TRANSACTION_PATTERN, content, re.DOTALL)
 
         return {
@@ -86,7 +86,7 @@ class ScraperService:
         """
         result = {}
 
-        content = self._extract_content_from_html(html_raw_text)
+        content = self._extract_content_from_html(html_raw_text=html_raw_text, tag_query="p")
         matches = re.findall(self._BAC_TRANSFER_PATTERN, content, re.DOTALL)
 
         for match in matches:
