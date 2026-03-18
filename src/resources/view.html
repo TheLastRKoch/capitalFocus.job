@@ -1,0 +1,295 @@
+Delivered-To: capital.focus.engine@gmail.com
+Received: by 2002:a05:6674:1481:b0:6bb:a7ff:c693 with SMTP id qd1csp1811378pxc;
+        Mon, 2 Mar 2026 05:40:40 -0800 (PST)
+X-Received: by 2002:a05:620a:372a:b0:8c0:cec4:b6fa with SMTP id af79cd13be357-8cbc8e79572mr1496411485a.65.1772458840718;
+        Mon, 02 Mar 2026 05:40:40 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772458840; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Sdxdln0FGLw2YgR1UlkNaOOf3Fr/7cEklHtxMxsfvGPTZtHn2pyFgWUHdScd2L9Zq1
+         d1mCEg+r4GaBDJenkRMYIPDGbEoHVUPnLxN1ixPDa/vOTcxqbCc54qeuOEDWIXOVRexu
+         kXm/iCN93lPI0Jx+rxqhAJCAQU5LJnjNSJsgStKC+X+y0hPnz2UdT3ewrUAEtY8wyaVv
+         Mj3pRwfWRXNbvjz0DQBpcl7ackdcDp4T7wxxRIlkPS7R+M9z1SBmEDukNr7LeqbaQFog
+         i8YfpOyQK1xroaym76wFa8a7ScSxV77tASMTm2zD7F2ov26b/YwSrRhwl8m9g4zlW7RS
+         sCiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=mime-version:subject:references:in-reply-to:message-id:to:from:date
+         :dkim-signature;
+        bh=hHiY74S5ENC46aYLZg/7TozqQ67PdJO90PB9MvlNXe4=;
+        fh=msFfe5TOv4BQN90hnwl8efqEPCQpr0m9LgA73gLTKSA=;
+        b=C5z81NWXKe46ArkenJYo//rNbRKL7HJPOgtOLpg1OEr7q373cF0uh7n0YTEhSdJlxh
+         5hpDTuqYmGUytiz5KBMQNHb2AZ9WUZksePbL78gJHRuMxrt2xyxDnFfvQocAEOW+y+0h
+         NbOrtPItv2PihOkvrzDFhSkxinw8NXJpw8JMVrIUcU2wfsp9dbLmNqa2K+FNLhcb2KFV
+         vkCNhgKSSpa4l13UGtkCbGfPtvgw7gNFSqXR9Zt5lTTYDnEDVuQosMyutNV/RlVixV6z
+         Fv7MfHo5g4DYfq7CrRfB1iTEIdxL1z9PfSpc4QJzs2kcNAR1UQdVn8/vj2p41paG+KoW
+         bLZw==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@icloud.com header.s=1a1hai header.b="XYC/oR0K";
+       spf=pass (google.com: domain of sergio31.96@icloud.com designates 57.103.77.133 as permitted sender) smtp.mailfrom=sergio31.96@icloud.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=icloud.com
+Return-Path: <sergio31.96@icloud.com>
+Received: from outbound.st.icloud.com (p-east2-cluster3-host9-snip4-2.eps.apple.com. [57.103.77.133])
+        by mx.google.com with ESMTPS id af79cd13be357-8cbbf6f9965si1288593385a.262.2026.03.02.05.40.40
+        for <capital.focus.engine@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2026 05:40:40 -0800 (PST)
+Received-SPF: pass (google.com: domain of sergio31.96@icloud.com designates 57.103.77.133 as permitted sender) client-ip=57.103.77.133;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@icloud.com header.s=1a1hai header.b="XYC/oR0K";
+       spf=pass (google.com: domain of sergio31.96@icloud.com designates 57.103.77.133 as permitted sender) smtp.mailfrom=sergio31.96@icloud.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=icloud.com
+Received: from outbound.st.icloud.com (unknown [127.0.0.2]) by p00-icloudmta-asmtp-us-east-1a-60-percent-4 (Postfix) with ESMTPS id D19621800BB3 for <capital.focus.engine@gmail.com>; Mon,
+  2 Mar 2026 13:40:39 +0000 (UTC)
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1772458840; x=1775050840; bh=hHiY74S5ENC46aYLZg/7TozqQ67PdJO90PB9MvlNXe4=; h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type:x-icloud-hme; b=XYC/oR0KIjuYLVTB52ooUD1J3xSY9Ke3NUXvUmtO11SFy3FJvRbyJvanLQmcKoP2DJpZgYX/nVaKNbbcMkCGSJUcTrwPQYZKKxlvtl0DMvlk+c8iA8Sy2mfLOVigKbWYePQL5nsBv8o4xSM26W6n6RV3NIdo93lSRD1FBON+qzXb7yVqWpnbKylijOD46fAPFO4sARJFZP8qOkM32TwYnrehvSl2MxHsdV8lMNJaGf71EGKrUKuPTFAc2YYvJqzJJWP+noOX+B0I/1DxG1mTwj6A/jd0EjYm+rzC8dpC2Ts9Cb63XdnpoT+TXCdkJtKhdp3DcIQ+/KmE98ihCHJNjQ==
+Received: from [192.168.1.35] (unknown [17.42.251.67]) by p00-icloudmta-asmtp-us-east-1a-60-percent-4 (Postfix) with ESMTPSA id 08B5B1800BAD for <capital.focus.engine@gmail.com>; Mon,
+  2 Mar 2026 13:40:38 +0000 (UTC)
+Date: Mon, 2 Mar 2026 07:40:33 -0600
+From: Sergio S <sergio31.96@icloud.com>
+To: "capital.focus.engine@gmail.com" <capital.focus.engine@gmail.com>
+Message-ID: <b1fc0983-c8dd-452f-8e45-43e989333a22@Spark>
+In-Reply-To: <0100019cab5928ec-d5809a2c-e704-4dbb-b2ff-53ff93911f39-000000@email.amazonses.com>
+References: <0100019cab5928ec-d5809a2c-e704-4dbb-b2ff-53ff93911f39-000000@email.amazonses.com>
+Subject: Fwd: Notificación de Transferencia
+X-Readdle-Message-ID: b1fc0983-c8dd-452f-8e45-43e989333a22@Spark
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="69a59355_519b500d_77e6"
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDExNCBTYWx0ZWRfX0ueTZijsKWNb gO0sGO8C/vXgN0Hnx+PpmSYiFQkF/UTUbC3twBCkH0+mJll9uV4GIAXbiDWjxLN54/+Sk4H2Q7A TG1JSdm+gLLFbqFTiBf5Ta1PKbfcY427Jn9fQVKinw26uU47GCkVan1+yp0x1WPLRgibQow4mX8 M/mc6iUWA5IVyoULw1XHan68lwiz9mXucr9iWKcYLRqh6zhCqJd5FMQdgzSjKl2M9wE0tZnjkD0 3mT2Vl2p3WAGFLf9wYbdI6TkwZpl3PD1egUyrew9zghMRc3fJEEXP0p2DvFKadqgC4uL4uprPbM PA2BFa+gqBjlBGg04h9Ppu47XmpTOgeBB/R1NYKJb9QbGjtjrHOeKeWqAaFxTg=
+X-Proofpoint-ORIG-GUID: gCo-qnVLXCtgzk5MR4E8IqQsst7ZgAeB
+X-Authority-Info-Out: v=2.4 cv=M8dA6iws c=1 sm=1 tr=0 ts=69a59358 cx=c_apl:c_apl_out:c_pps a=YrL12D//S6tul8v/L+6tKg==:117 a=YrL12D//S6tul8v/L+6tKg==:17 a=Yq5XynenixoA:10 a=5KLPUuaC_9wA:10 a=x7bEGLp0ZPQA:10 a=F3x5nHMeoGEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=y-JCZhkJAAAA:8 a=v3ZZPjhaAAAA:8 a=fyyWffk_h91lk7nZchgA:9 a=QEXdDO2ut3YA:10 a=EilJf4YjAAAA:8 a=SSmOFEACAAAA:8 a=nD97WWuD5BG2f4S6:21 a=_W_S_7VecoQA:10 a=sze66DBnuIL9hzyfG3TB:22 a=LnnjNAE8mTPnxUYhbRhc:22
+X-Proofpoint-GUID: gCo-qnVLXCtgzk5MR4E8IqQsst7ZgAeB
+X-Proofpoint-Virus-Version: vendor=baseguard engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49 definitions=2026-03-02_03,2026-03-02_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 bulkscore=0 spamscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015 mlxlogscore=999 mlxscore=0 suspectscore=0 adultscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2603020114
+X-JNJ: AAAAAAABtPx85Rw3JA0DrqXxaRH8Dx/DVy2/ud+FiN99UctdaRSn+6s0FoUhmJlcmbToM16kQMXe3QadzSKh6XIKy9wroZtmdR+Qxmy+qFdVZ8NKVz9xeL+PNW6R2BqqFMtljE2SKsjs12fjIf/maoehXHrgo9Qx78ig7f/wSoab1bBxOsmZxSbrn0Bdkd5OWUSBa+4jk2wBMqpLQxPmEVi1PN6m3kTdrNFp2NNXjFv7YFQ9CGZixM4PB3lafF2EppKe+vln0iNckpvivqGNVXPt8+jAt/pNYVFZblBGW2Y9PC39PgBGppKJLgZ47lL9ajknq4ayyw8xsMr3/DKpCjzHz8cPwx4RPCB4i9tyQp7XCnVRRgvG7k5PnFDIsf3oz1XdowgjiTzO7faz2Yd5wk2v6x1/moUMUHqNnoShpIxyg2slJpdluYnGKb2ArIvRgz2k9gll8lCDVM+xORXIp8U8tpG3iqVQ5BWl5C7GxD71kuv98Ry9Wkf3JNCuuYZt2GyE8gLkjtE3fZRiHBg+8WepYRP9iMpilknZQIFnejLrnTqoUciO7negbAmzvP4s1jdYD+YaB3icDkOxGz0jdXxOY1jKD+VRr9U34qkEZx3R7OwtXEHhFfppLrUrdMA=
+
+--69a59355_519b500d_77e6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+
+---------- Forwarded message ----------
+From: alerta@baccredomatic.com
+Date: Mar 1, 2026 at 3:41=E2=80=AFPM -0600
+To: sergio31.96@icloud.com
+Subject: Notificacio=CC=81n de Transferencia
+
+> Notificaci=C3=B3n
+> de Transferencia Local
+> Estimado(a) MARCELO CASTRO HENCHOZ :
+> BAC Credomatic le comunica que SERGIO SEGURA VIDAL realiz=C3=B3 una trans=
+ferencia electr=C3=B3nica a su cuenta N=C2=B0 *****6158.
+> La transferencia se realiz=C3=B3 el d=C3=ADa 01-03-2026 a las 15:41:01 ho=
+ras; por un monto de 4.000,00 CRC , por concepto de:
+> Anillos________
+> El n=C3=BAmero de referencia es 2026030110283000877943114
+> Muchas Gracias.
+> =C2=BFTiene dudas sobre esta transacci=C3=B3n?
+> Puede encontrar ayuda y m=C3=A1s informaci=C3=B3n en nuestro Centro de Ay=
+uda o contactarnos v=C3=ADa WhatsApp al +506 8742-9595 o tel=C3=A9fono +506=
+ 2295-9797.
+> Recuerde que nunca le solicitaremos informaci=C3=B3n personal ni de sus p=
+roductos por ning=C3=BAn medio de contacto.
+> Este mensaje es generado por un sistema autom=C3=A1tico, agradecemos no r=
+esponder a esta direcci=C3=B3n.
+> Descarga nuestra Banca M=C3=B3vil
+> Todos los derechos reservados. 2026. =C2=A9 BAC International Bank. Todos=
+ los derechos reservados
+
+--69a59355_519b500d_77e6
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+
+<html xmlns=3D"http://www.w3.org/1999/xhtml">
+<head>
+<title></title>
+</head>
+<body>
+<div name=3D"messageReplySection">---------- Forwarded message ----------<b=
+r />
+<b>From:</b> alerta@baccredomatic.com<br />
+<b>Date:</b> Mar 1, 2026 at 3:41=E2=80=AFPM -0600<br />
+<b>To:</b> sergio31.96@icloud.com<br />
+<b>Subject:</b> Notificacio=CC=81n de Transferencia<br />
+<br />
+<blockquote type=3D"cite">
+<center class=3D"wrapper" style=3D"width:100%;table-layout:fixed;-webkit-te=
+xt-size-adjust:100%;-ms-text-size-adjust:100%;">
+<div class=3D"webkit" style=3D"max-width:600px;margin-top:0;margin-bottom:0=
+;margin-right:auto;margin-left:auto;">
+<table class=3D"outer" align=3D"center" style=3D"border-spacing:0;color:#33=
+3333;margin:0 auto;width:100%;max-width:600px; margin: 0px;">
+<tr>
+<td style=3D"padding:0;">
+<table width=3D"100%" style=3D"border-spacing:0;color:#333333;">
+<tr>
+<td class=3D"header inner contents" style=3D"padding:15px;background-color:=
+#E4002B;height:40px;text-align:left;"><img src=3D"http://content.baccredoma=
+tic.com/es/alertas/logo/bac-logo.png" width=3D"100" height=3D"32" style=3D"=
+border-width:0;" /></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+</center>
+<img alt=3D"" src=3D"https://k7zed96s.r.us-east-1.awstrack.me/I0/0100019cab=
+5928ec-d5809a2c-e704-4dbb-b2ff-53ff93911f39-000000/1K6BaRJSG_Z6Odr_pjWM2g7A=
+-dE=3D467" style=3D"display: none; width: 1px; height: 1px;" />
+<center class=3D"wrapper" style=3D"width:100%;table-layout:fixed;-webkit-te=
+xt-size-adjust:100%;-ms-text-size-adjust:100%;">
+<div class=3D"webkit" style=3D"max-width:600px;margin-top:0;margin-bottom:0=
+;margin-right:auto;margin-left:auto;"><!--[if (gte mso 9)|(IE)]> <table wid=
+th=3D"600" align=3D"center" style=3D"border-spacing:0;font-family:sans-seri=
+f;color:#333333;" > <tr> <td style=3D"padding-top:0;padding-bottom:0;paddin=
+g-right:0;padding-left:0;" > <![endif]-->
+<table align=3D"center" class=3D"outer" style=3D"border-spacing:0;font-fami=
+ly:sans-serif;color:#333333;Margin:0 auto;width:100%;max-width:600px;">
+<tr>
+<td class=3D"one-column" style=3D"padding-top:0;padding-bottom:0;padding-ri=
+ght:0;padding-left:0;">
+<table style=3D"border-spacing:0;font-family:sans-serif;color:#333333;" wid=
+th=3D"100%">
+<tr>
+<td class=3D"inner contents" style=3D"padding-top:10px;padding-bottom:10px;=
+padding-right:10px;padding-left:10px;text-align:left;">
+<p class=3D"h1" style=3D"font-family:Helvetica, Arial, sans-serif;line-heig=
+ht:1.4;Margin:0;color:#E4002B;font-weight:bold;Margin-top:20px !important;f=
+ont-size:26px !important;Margin-bottom:30px !important;">Notificaci=C3=B3n<=
+br />
+de Transferencia Local</p>
+<p style=3D"font-family:Helvetica, Arial, sans-serif;color:#000000;line-hei=
+ght:1.4;Margin:0;font-size:14px;Margin-bottom:15px;">Estimado(a) <span styl=
+e=3D"font-weight:bold;">MARCELO CASTRO HENCHOZ</span> :</p>
+<p style=3D"font-family:Helvetica, Arial, sans-serif;color:#000000;line-hei=
+ght:1.4;Margin:0;font-size:14px;Margin-bottom:15px;">BAC Credomatic le comu=
+nica que <span style=3D"font-weight:bold;">SERGIO SEGURA VIDAL</span> reali=
+z=C3=B3 una transferencia electr=C3=B3nica a su cuenta N=C2=B0 <span style=
+=3D"font-weight:bold;">*****6158.</span></p>
+<p style=3D"font-family:Helvetica, Arial, sans-serif;color:#000000;line-hei=
+ght:1.4;Margin:0;font-size:14px;Margin-bottom:15px;">La transferencia se re=
+aliz=C3=B3 el d=C3=ADa <span style=3D"font-weight:bold;">01-03-2026</span> =
+a las <span style=3D"font-weight:bold;">15:41:01</span> horas; por un monto=
+ de <span style=3D"font-weight:bold;">4.000,00 CRC</span> , por concepto de=
+:</p>
+<p style=3D"font-family:Helvetica, Arial, sans-serif;color:#000000;line-hei=
+ght:1.4;Margin:0;font-size:14px;Margin-bottom:15px;"><span style=3D"font-we=
+ight:bold;">Anillos________</span></p>
+<p style=3D"font-family:Helvetica, Arial, sans-serif;color:#000000;line-hei=
+ght:1.4;Margin:0;font-size:14px;Margin-bottom:15px;">El n=C3=BAmero de refe=
+rencia es <span style=3D"font-weight:bold;">2026030110283000877943114</span=
+></p>
+<p style=3D"font-family:Helvetica, Arial, sans-serif;color:#000000;line-hei=
+ght:1.4;Margin:0;font-size:14px;Margin-bottom:15px;">Muchas Gracias.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<!--[if (gte mso 9)|(IE)]> </td> </tr> </table> <![endif]--></div>
+</center>
+<center class=3D"wrapper" style=3D"width:100%;table-layout:fixed;-webkit-te=
+xt-size-adjust:100%;-ms-text-size-adjust:100%;">
+<div class=3D"webkit" style=3D"max-width:600px;margin-top:0;margin-bottom:0=
+;margin-right:auto;margin-left:auto;">
+<table class=3D"outer" align=3D"center" style=3D"border-spacing:0;color:#33=
+3333;margin:0 auto;width:100%;max-width:600px; margin: 0px;">
+<tr>
+<td style=3D"padding:0px 10px 10px 10px;">
+<table width=3D"100%" style=3D"font-size: 12px; color: #6d6e71; font-weight=
+: 400; border-spacing:0; line-height: 1.5;">
+<tr>
+<td style=3D"width: 16px; float: left; padding: 10px 0px 10px 0px;"><img sr=
+c=3D"http://images.info.baccredomatic.com/EloquaImages/clients/BACINTERNATI=
+ONALBANKINC/%7B82811623-faa4-4b22-9d3e-349959d228d1%7D_question-mark.png" w=
+idth=3D"20" height=3D"20" style=3D"border-width:0;" /></td>
+<td style=3D"padding: 10px;"><span style=3D"color: #6d6e71; font-weight: 60=
+0; font-size: 12px;">=C2=BFTiene dudas sobre esta transacci=C3=B3n?</span><=
+br />
+Puede encontrar ayuda y m=C3=A1s informaci=C3=B3n en nuestro <a href=3D"htt=
+ps://k7zed96s.r.us-east-1.awstrack.me/L0/https:%2F%2Fayuda.baccredomatic.co=
+m%2F%3Fbacid=3DGUAG-INFO-REF-000003-GL-AW-TF-00-000-00-00000%2FCENTROAYUDAS=
+W%253FtrackerId%253D1/1/0100019cab5928ec-d5809a2c-e704-4dbb-b2ff-53ff93911f=
+39-000000/XqAbEQRFkX7hcouOk0aN7w3FL9k=3D467" style=3D"text-decoration: none=
+; color: #1075bb" target=3D"blank">Centro de Ayuda</a> o contactarnos v=C3=
+=ADa WhatsApp al +506 8742-9595 o tel=C3=A9fono +506 2295-9797.</td>
+</tr>
+<tr>
+<td style=3D"float: left; padding: 10px 0px 10px 0px;"><img src=3D"http://i=
+mages.info.baccredomatic.com/EloquaImages/clients/BACINTERNATIONALBANKINC/%=
+7B9b3a8dd4-d267-4020-95ec-da6a5ec1e920%7D_security-shield.png" width=3D"20"=
+ height=3D"20" style=3D"border-width:0;" /></td>
+<td style=3D"padding: 10px;">Recuerde que nunca le solicitaremos informaci=
+=C3=B3n personal ni de sus productos por ning=C3=BAn medio de contacto.</td=
+>
+</tr>
+<tr>
+<td style=3D"float: left; padding: 10px 0px 10px 0px;"><img src=3D"http://i=
+mages.info.baccredomatic.com/EloquaImages/clients/BACINTERNATIONALBANKINC/%=
+7Beccae1e3-737a-47aa-9f76-0f596fcfc334%7D_warning.png" width=3D"20" height=
+=3D"20" style=3D"border-width:0;" /></td>
+<td style=3D"padding: 10px;">Este mensaje es generado por un sistema autom=
+=C3=A1tico, agradecemos no responder a esta direcci=C3=B3n.</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+</center>
+<center class=3D"wrapper" style=3D"width:100%;table-layout:fixed;-webkit-te=
+xt-size-adjust:100%;-ms-text-size-adjust:100%;">
+<div class=3D"webkit" style=3D"max-width:600px;margin-top:0;margin-bottom:0=
+;margin-right:auto;margin-left:auto;">
+<table class=3D"outer" align=3D"center" style=3D"border-spacing:0;color:#33=
+3333;margin:0 auto;width:100%;max-width:600px; margin: 0px;">
+<tr>
+<td style=3D"padding:0;">
+<table width=3D"100%" style=3D"border-spacing:0; font-size: 12px; color: #6=
+d6e71; font-weight: 400;">
+<tr>
+<td style=3D"width: 100%; padding: 10px 0px 10px 10px; text-align:center;">=
+Descarga nuestra Banca M=C3=B3vil</td>
+</tr>
+<tr>
+<td style=3D"width: 100%; padding: 0px 0px 10px 10px; text-align:center;"><=
+img src=3D"http://images.info.baccredomatic.com/EloquaImages/clients/BACINT=
+ERNATIONALBANKINC/%7B0944d0c0-36ed-4fa3-8c0f-587737d0611d%7D_apple.png" wid=
+th=3D"20" height=3D"20" /> <img src=3D"http://images.info.baccredomatic.com=
+/EloquaImages/clients/BACINTERNATIONALBANKINC/%7Bc8026409-ac74-4740-8903-aa=
+3ef64bf349%7D_android.png" width=3D"20" height=3D"20" /> <img src=3D"http:/=
+/images.info.baccredomatic.com/EloquaImages/clients/BACINTERNATIONALBANKINC=
+/%7B26094e2d-ade7-4af3-a7a6-170875cba337%7D_huawei.png" width=3D"20" height=
+=3D"20" /></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+</center>
+<center class=3D"wrapper" style=3D"width:100%;table-layout:fixed;-webkit-te=
+xt-size-adjust:100%;-ms-text-size-adjust:100%;">
+<div class=3D"webkit" style=3D"max-width:600px;margin-top:0;margin-bottom:0=
+;margin-right:auto;margin-left:auto;">
+<table class=3D"outer" align=3D"center" style=3D"border-spacing:0;color:#33=
+3333;margin:0 auto;width:100%;max-width:600px; margin: 0px;">
+<tr>
+<td style=3D"padding:0px 0px 0px 0px;">
+<hr style=3D"height:1px;border-width:0;background-color:#F1F1F2;" /></td>
+</tr>
+<tr>
+<td style=3D"padding:10px 0px 20px 0px; text-align: center; color: #9E9E9E;=
+ font-size: 10px;">Todos los derechos reservados. 2026. =C2=A9 BAC Internat=
+ional Bank. Todos los derechos reservados</td>
+</tr>
+</table>
+</div>
+</center>
+</blockquote>
+</div>
+</body>
+</html>
+
+--69a59355_519b500d_77e6--

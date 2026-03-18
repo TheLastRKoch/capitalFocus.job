@@ -3,30 +3,21 @@
 # # with open("view.html", "r") as file:
 # #     html_raw_text = file.read()
 
-# from services.scraper import ScraperService
-# from services.gmail import GmailService
-# import json
+from services.scraper import ScraperService
+from services.gmail import GmailService
+import json
 
-# scraper = ScraperService()
+scraper = ScraperService()
+gmail = GmailService()
 
-# gmail = GmailService()
+email_list = gmail.get_email_list("label:job-new")["messages"]
 
-# email_list = gmail.get_email_list("label:job-new")["messages"]
+for email in email_list:
+    message = gmail.get_message(email["id"])
 
-# for email in email_list:
-#     message = gmail.get_message(email["id"])
+    # file_path = get_unique_filepath("message.json")
+    # with open(file_path, "w") as file:
+    #     file.write(json.dumps(message, indent=4))
 
-#     # file_path = get_unique_filepath("message.json")
-#     # with open(file_path, "w") as file:
-#     #     file.write(json.dumps(message, indent=4))
-
-#     text, html = gmail.get_email_content(message)
-#     result = scraper.bac(html)
-#     print()
-#     print()
-#     print(json.dumps(result, indent=4))
-
-from repositories.transactions import TransactionsRepository
-
-transactions = TransactionsRepository()
-print(transactions.get_list())
+    text, html = gmail.get_email_content(message)
+    print(scraper.bac_transfer(html))

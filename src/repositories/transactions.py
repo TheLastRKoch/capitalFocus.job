@@ -9,7 +9,7 @@ class TransactionsRepository:
         """Initialize the transactions repository with a Teable service instance."""
         self.teable = TeableService()
 
-    def get_list(self) -> dict:
+    def all(self) -> dict:
         """
         Retrieve a list of transactions from the Teable service.
 
