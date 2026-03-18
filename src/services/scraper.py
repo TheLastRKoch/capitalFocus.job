@@ -71,15 +71,20 @@ class ScraperService:
 
         for tag in html_text_tags:
             content += tag.text + "$%"
-        return content
-        pattern = r"(?:([A-z ]+):|(AMEX|VISA|MASTER))\$\%(.+?)\$\%"
+
+        pattern = r"Estimado\(a\)\s([A-z\s]+)\s\:.+?le\scomunica\sque\s([A-z\s]+)\srealizo.+?N°\s([\*\d]+)\.\$.+?dia\s([\d\-]+)\sa\slas\s([\d\:]+).+?por\sun\smonto\sde\s([\d\.\,]+).+?por\sconcepto\sde\:\$\%(.+?)\$\%.+?referencia\ses\s(.+?)\$\%"
 
         matches = re.findall(pattern, content, re.DOTALL)
 
         for match in matches:
-            key = match[0] if match[0] else match[1]
-            value = match[2].strip()
+            result.update({
+                "addressee": match[0],
+                "sender": match[1],
+                "account": match[2],
+                "date": f"{match[3]} {match[4]}",
+                "amount": match[5],
+                "description": match[6],
+                "reference": match[7],
+            })
 
-            if key:
-                result[key] = value
         return result
