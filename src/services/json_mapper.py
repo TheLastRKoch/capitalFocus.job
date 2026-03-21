@@ -2,15 +2,17 @@ import unittest
 from functools import reduce
 from typing import Any, Dict, List, Tuple
 
+
 class JsonMapperService:
     """
     A utility class that maps disparate, nested JSON structures into a unified, 
     flat dictionary based on user-defined tuple paths.
     """
+
     def __init__(self, schema: Dict[str, Tuple[str, ...]]) -> None:
         """
         Initialize with a mapping schema.
-        
+
         Args:
             schema: A dictionary where the key is the desired output field name 
                     and the value is a tuple representing the sequential keys to traverse.
@@ -23,16 +25,21 @@ class JsonMapperService:
         Traverse the nested dictionary along the given path.
         Returns None if a key is missing or the path is broken.
         """
-        return reduce(lambda d, k: d.get(k) if isinstance(d, dict) else None, path, data)
+        return reduce(lambda d, k: d.get(k)
+                      if isinstance(d, dict) else None, path, data)
 
     def transform(self, source_json: Dict[str, Any]) -> Dict[str, Any]:
         """
         Transform a single JSON object based on the schema.
         """
-        return {new_key: self._resolve(source_json, path) 
-                for new_key, path in self.schema.items()}
+        return {
+            new_key: self._resolve(source_json, path)
+            for new_key, path in self.schema.items()
+        }
 
-    def transform_batch(self, source_json_list: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def transform_batch(
+            self, source_json_list: List[Dict[str,
+                                              Any]]) -> List[Dict[str, Any]]:
         """
         Transform a list of JSON objects based on the schema.
         """
@@ -43,17 +50,15 @@ def bac(scraped_json: Any) -> None:
     """
     Placeholder method for a generic BAC extraction on scraped JSON.
     Currently does nothing.
-    
+
     Args:
         scraped_json (Any): The scraped JSON data to process.
     """
-    [
-        {""}
-    ]
+    [{""}]
 
 
 class TestJsonMapper(unittest.TestCase):
-    
+
     def test_case_a_deep_nesting(self) -> None:
         """Test deep nesting case (Case A)."""
         schema = {"target": ("a", "b", "c")}
@@ -77,7 +82,7 @@ class TestJsonMapper(unittest.TestCase):
         input_data = {"company": {"name": "Test"}}
         expected = {"target": None}
         self.assertEqual(mapper.transform(input_data), expected)
-        
+
     def test_case_d_broken_path_type_error_prevention(self) -> None:
         """Ensure type errors are prevented when path traverses a non-dict element."""
         schema = {"target": ("user", "id", "nested")}
@@ -92,21 +97,44 @@ class TestJsonMapper(unittest.TestCase):
         schema = {
             "name": ("employee", "name"),
             "department": ("employee", "dept"),
-            "role": ("role",)
+            "role": ("role", )
         }
         mapper = JsonMapperService(schema)
-        
+
         input_data = [
-            {"employee": {"name": "Alice", "dept": "Engineering"}, "role": "Senior"},
-            {"employee": {"name": "Bob"}, "role": "Junior"},
-            {"other_format": {"employee": "Charlie"}} # Missing expected structure
+            {
+                "employee": {
+                    "name": "Alice",
+                    "dept": "Engineering"
+                },
+                "role": "Senior"
+            },
+            {
+                "employee": {
+                    "name": "Bob"
+                },
+                "role": "Junior"
+            },
+            {
+                "other_format": {
+                    "employee": "Charlie"
+                }
+            }  # Missing expected structure
         ]
-        
-        expected = [
-            {"name": "Alice", "department": "Engineering", "role": "Senior"},
-            {"name": "Bob", "department": None, "role": "Junior"},
-            {"name": None, "department": None, "role": None}
-        ]
+
+        expected = [{
+            "name": "Alice",
+            "department": "Engineering",
+            "role": "Senior"
+        }, {
+            "name": "Bob",
+            "department": None,
+            "role": "Junior"
+        }, {
+            "name": None,
+            "department": None,
+            "role": None
+        }]
         self.assertEqual(mapper.transform_batch(input_data), expected)
 
 

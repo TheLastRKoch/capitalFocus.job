@@ -1,0 +1,39 @@
+{
+    "type": "object",
+    "properties": {
+        "Comercio": {
+            "type": "string"
+        },
+        "Ciudad y pais": {
+            "type": "string"
+        },
+        "Fecha": {
+            "type": "string"
+        },
+        "Tarjeta": {
+            "type": "string"
+        },
+        "Autorizacion": {
+            "type": "string"
+        },
+        "Referencia": {
+            "type": "string"
+        },
+        "Tipo de Transaccion": {
+            "type": "string"
+        },
+        "Monto": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "Comercio",
+        "Ciudad y pais",
+        "Fecha",
+        "Tarjeta",
+        "Autorizacion",
+        "Referencia",
+        "Tipo de Transaccion",
+        "Monto"
+    ]
+}
