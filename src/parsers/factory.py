@@ -47,8 +47,8 @@ class FactoryParser:
             The operation type.
         """
         text = self.text_utils.normalize_text(text)
-        if "transferencia" in text:
+        if "transferencia" in text.lower():
             return OperationType.TRANSFER
-        elif "transaccion" in text:
+        elif "transaccion" in text.lower():
             return OperationType.TRANSACTION
         return None
