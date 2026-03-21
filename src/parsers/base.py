@@ -15,4 +15,3 @@ class BaseParser(ABC):
         Returns:
             A dictionary of the parsed data.
         """
-        pass

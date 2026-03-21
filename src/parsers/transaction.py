@@ -1,5 +1,5 @@
 import re
-from parsers.base_parser import BaseParser
+from parsers.base import BaseParser
 from utils.html import HtmlUtils
 
 

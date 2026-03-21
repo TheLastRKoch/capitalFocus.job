@@ -1,7 +1,7 @@
 from enum import Enum, auto
-from parsers.base_parser import BaseParser
-from parsers.transaction_parser import TransactionParser
-from parsers.transfer_parser import TransferParser
+from parsers.base import BaseParser
+from parsers.transaction import TransactionParser
+from parsers.transfer import TransferParser
 from utils.text import TextUtils
 
 
@@ -10,8 +10,8 @@ class OperationType(Enum):
     TRANSFER = auto()
 
 
-class BACParserFactory:
-    """A factory for creating BAC parsers."""
+class FactoryParser:
+    """A factory for creating parsers."""
 
     def __init__(self):
         """Initializes the BACParserFactory."""

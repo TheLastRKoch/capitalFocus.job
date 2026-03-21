@@ -1,9 +1,9 @@
-from services.bac_parser import BACParserFactory, OperationType
+from parsers.factory import FactoryParser
 from services.gmail import GmailService
 from services.validator import ValidatorService
 
 
-def process_email(email_id: str, gmail_service: GmailService, parser_factory: BACParserFactory):
+def process_email(email_id: str, gmail_service: GmailService, parser_factory: FactoryParser):
     """
     Processes a single email.
 
@@ -45,7 +45,7 @@ def main():
     Main function to process emails.
     """
     gmail_service = GmailService()
-    parser_factory = BACParserFactory()
+    parser_factory = FactoryParser()
 
     try:
         email_list = gmail_service.get_email_list("label:job-new")["messages"]
