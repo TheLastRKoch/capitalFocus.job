@@ -1,7 +1,7 @@
 from enum import Enum, auto
 from parsers.base import BaseParser
-from parsers.transaction import TransactionParser
-from parsers.transfer import TransferParser
+from parsers.entities.bac.transaction import TransactionParser
+from parsers.entities.bac.transfer import TransferParser
 from utils.text import TextUtils
 
 
