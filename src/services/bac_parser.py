@@ -1,26 +1,28 @@
 import re
+from enum import Enum, auto
 
 from bs4 import BeautifulSoup
 
 from utils.text import TextUtils
 
 
-class ScraperService:
+class BACParserService:
     """A service for scraping and extracting text patterns from HTML."""
 
     _BAC_TRANSACTION_PATTERN = r"(?:([A-z ]+):|(AMEX|VISA|MASTER))\$\%(.+?)\$\%"
     _BAC_TRANSFER_PATTERN = r"Estimado\(a\)\s([A-z\s]+)\s\:.+?le\scomunica\sque\s([A-z\s]+)\srealizo.+?N°\s([\*\d]+)\.\$.+?dia\s([\d\-]+)\sa\slas\s([\d\:]+).+?por\sun\smonto\sde\s([\d\.\,]+).+?por\sconcepto\sde\:\$\%(.+?)\$\%.+?referencia\ses\s(.+?)\$\%"
 
+    transaction_schema = {}
+    transfer_schema = {}
+
     def __init__(self) -> None:
         """Initializes the ScraperService with a text utility."""
         self.text_utils = TextUtils()
 
-    def _extract_content_from_html(self, html_raw_text: str, tag_query: str) -> str:
+    def _extract_content_from_html(self, html_raw_text: str,
+                                   tag_query: str) -> str:
         """
         Parses raw HTML and extracts text content from paragraph tags.
-
-        This method normalizes the HTML, parses it, and then extracts
-        the text from all `<p>` tags, joining them with a separator.
 
         Args:
             html_raw_text: The raw HTML string to process.
@@ -48,12 +50,17 @@ class ScraperService:
         """
         return {keys[i]: match[i] for i in range(len(keys))}
 
-    def bac_transaction(self, html_raw_text: str) -> dict[str, str]:
+    def get_operation_type(self, text):
+        text = self.text_utils.normalize_text(text)
+        if "transferencia" in text:
+            return self.scrape_transfer
+        elif "transaccion" in text:
+            return self.scrape_transaction
+        return None
+
+    def scrape_transaction(self, html_raw_text: str) -> dict[str, str]:
         """
         Parses a BAC transaction from an HTML string.
-
-        This method extracts key-value pairs from the HTML of a BAC
-        transaction email, such as credit card payments.
 
         Args:
             html_raw_text: The raw HTML string of the transaction email.
@@ -61,7 +68,8 @@ class ScraperService:
         Returns:
             A dictionary of the transaction details.
         """
-        content = self._extract_content_from_html(html_raw_text=html_raw_text, tag_query="q")
+        content = self._extract_content_from_html(html_raw_text=html_raw_text,
+                                                  tag_query="p")
         matches = re.findall(self._BAC_TRANSACTION_PATTERN, content, re.DOTALL)
 
         return {
@@ -70,12 +78,9 @@ class ScraperService:
             if (key := (match[0] if match[0] else match[1]))
         }
 
-    def bac_transfer(self, html_raw_text: str) -> dict[str, str]:
+    def scrape_transfer(self, html_raw_text: str) -> dict[str, str]:
         """
         Parses a BAC transfer from an HTML string.
-
-        This method extracts details from the HTML of a BAC transfer
-        email, such as the sender, recipient, amount, and date.
 
         Args:
             html_raw_text: The raw HTML string of the transfer email.
@@ -86,7 +91,8 @@ class ScraperService:
         """
         result = {}
 
-        content = self._extract_content_from_html(html_raw_text=html_raw_text, tag_query="p")
+        content = self._extract_content_from_html(html_raw_text=html_raw_text,
+                                                  tag_query="p")
         matches = re.findall(self._BAC_TRANSFER_PATTERN, content, re.DOTALL)
 
         for match in matches:
@@ -100,3 +106,6 @@ class ScraperService:
                 "reference": match[7],
             })
         return result
+
+    def validate(self, schema, json):
+        pass
