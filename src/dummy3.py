@@ -4,19 +4,7 @@ def main():
     validator = Validator()
 
     # Example 1: Schema and Data
-    schema1 = {
-        "type": "object",
-        "properties": {
-            "addressee": {"type": "string"},
-            "sender": {"type": "string"},
-            "account": {"type": "string"},
-            "date": {"type": "string", "pattern": r"^\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}$"},
-            "amount": {"type": "string"},
-            "description": {"type": "string"},
-            "reference": {"type": "string"}
-        },
-        "required": ["addressee", "sender", "account", "date", "amount", "description", "reference"]
-    }
+    schema1 = 
     data1 = {
         "addressee": "MARCELO CASTRO HENCHOZ",
         "sender": "SERGIO SEGURA VIDAL",

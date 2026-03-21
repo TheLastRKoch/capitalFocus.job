@@ -2,6 +2,7 @@ import re
 from enum import Enum, auto
 
 from bs4 import BeautifulSoup
+from jsonschema import validate, ValidationError
 
 from utils.text import TextUtils
 
@@ -12,8 +13,76 @@ class BACParserService:
     _BAC_TRANSACTION_PATTERN = r"(?:([A-z ]+):|(AMEX|VISA|MASTER))\$\%(.+?)\$\%"
     _BAC_TRANSFER_PATTERN = r"Estimado\(a\)\s([A-z\s]+)\s\:.+?le\scomunica\sque\s([A-z\s]+)\srealizo.+?N°\s([\*\d]+)\.\$.+?dia\s([\d\-]+)\sa\slas\s([\d\:]+).+?por\sun\smonto\sde\s([\d\.\,]+).+?por\sconcepto\sde\:\$\%(.+?)\$\%.+?referencia\ses\s(.+?)\$\%"
 
-    transaction_schema = {}
-    transfer_schema = {}
+    class OperationType(Enum):
+        TRANSACTION = auto()
+        TRANSFER = auto()
+
+    transaction_schema = {
+        "type":
+        "object",
+        "properties": {
+            "Comercio": {
+                "type": "string"
+            },
+            "Ciudad y pais": {
+                "type": "string"
+            },
+            "Fecha": {
+                "type": "string"
+            },
+            "MASTER": {
+                "type": "string"
+            },
+            "Autorizacion": {
+                "type": "string"
+            },
+            "Referencia": {
+                "type": "string"
+            },
+            "Tipo de Transaccion": {
+                "type": "string"
+            },
+            "Monto": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "Comercio", "Ciudad y pais", "Fecha", "MASTER", "Autorizacion",
+            "Referencia", "Tipo de Transaccion", "Monto"
+        ]
+    }
+
+    transfer_schema = {
+        "type":
+        "object",
+        "properties": {
+            "addressee": {
+                "type": "string"
+            },
+            "sender": {
+                "type": "string"
+            },
+            "account": {
+                "type": "string"
+            },
+            "date": {
+                "type": "string"
+            },
+            "amount": {
+                "type": "string"
+            },
+            "description": {
+                "type": "string"
+            },
+            "reference": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "addressee", "sender", "account", "date", "amount", "description",
+            "reference"
+        ]
+    }
 
     def __init__(self) -> None:
         """Initializes the ScraperService with a text utility."""
@@ -53,9 +122,9 @@ class BACParserService:
     def get_operation_type(self, text):
         text = self.text_utils.normalize_text(text)
         if "transferencia" in text:
-            return self.scrape_transfer
+            return self.OperationType.TRANSFER
         elif "transaccion" in text:
-            return self.scrape_transaction
+            return self.OperationType.TRANSACTION
         return None
 
     def scrape_transaction(self, html_raw_text: str) -> dict[str, str]:
@@ -107,5 +176,10 @@ class BACParserService:
             })
         return result
 
-    def validate(self, schema, json):
-        pass
+    def validate(self, data, schema):
+        try:
+            validate(instance=data, schema=schema)
+            return True
+        except ValidationError as e:
+            print(e)
+            return False
