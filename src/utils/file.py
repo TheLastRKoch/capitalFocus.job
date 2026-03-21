@@ -30,3 +30,8 @@ def get_unique_filepath(filepath: str) -> Path:
             return new_filepath
 
         counter += 1
+
+
+def write(path, content):
+    with open(path, 'w') as file:
+        file.write(content)

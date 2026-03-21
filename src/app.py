@@ -30,10 +30,12 @@ def process_email(email_id: str, gmail_service: GmailService, parser_factory: Fa
         schema_path = f"src/schemas/{operation_type.name.lower()}.json"
         validator = ValidatorService(schema_path)
 
+        print("Processed data:", data)
+
         if not validator.validate(data):
             raise Exception("Data validation failed.")
 
-        print("Processed data:", data)
+        print("Passed validation")
 
     except Exception as e:
         print(f"Error processing email {email_id}: {e}")

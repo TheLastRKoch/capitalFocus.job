@@ -10,7 +10,7 @@
         "Fecha": {
             "type": "string"
         },
-        "MASTER": {
+        "Tarjeta": {
             "type": "string"
         },
         "Autorizacion": {
@@ -30,7 +30,7 @@
         "Comercio",
         "Ciudad y pais",
         "Fecha",
-        "MASTER",
+        "Tarjeta",
         "Autorizacion",
         "Referencia",
         "Tipo de Transaccion",
