@@ -1,185 +1,54 @@
-import re
 from enum import Enum, auto
-
-from bs4 import BeautifulSoup
-from jsonschema import validate, ValidationError
-
+from parsers.base_parser import BaseParser
+from parsers.transaction_parser import TransactionParser
+from parsers.transfer_parser import TransferParser
 from utils.text import TextUtils
 
 
-class BACParserService:
-    """A service for scraping and extracting text patterns from HTML."""
+class OperationType(Enum):
+    TRANSACTION = auto()
+    TRANSFER = auto()
 
-    _BAC_TRANSACTION_PATTERN = r"(?:([A-z ]+):|(AMEX|VISA|MASTER))\$\%(.+?)\$\%"
-    _BAC_TRANSFER_PATTERN = r"Estimado\(a\)\s([A-z\s]+)\s\:.+?le\scomunica\sque\s([A-z\s]+)\srealizo.+?N°\s([\*\d]+)\.\$.+?dia\s([\d\-]+)\sa\slas\s([\d\:]+).+?por\sun\smonto\sde\s([\d\.\,]+).+?por\sconcepto\sde\:\$\%(.+?)\$\%.+?referencia\ses\s(.+?)\$\%"
 
-    class OperationType(Enum):
-        TRANSACTION = auto()
-        TRANSFER = auto()
+class BACParserFactory:
+    """A factory for creating BAC parsers."""
 
-    transaction_schema = {
-        "type":
-        "object",
-        "properties": {
-            "Comercio": {
-                "type": "string"
-            },
-            "Ciudad y pais": {
-                "type": "string"
-            },
-            "Fecha": {
-                "type": "string"
-            },
-            "MASTER": {
-                "type": "string"
-            },
-            "Autorizacion": {
-                "type": "string"
-            },
-            "Referencia": {
-                "type": "string"
-            },
-            "Tipo de Transaccion": {
-                "type": "string"
-            },
-            "Monto": {
-                "type": "string"
-            }
-        },
-        "required": [
-            "Comercio", "Ciudad y pais", "Fecha", "MASTER", "Autorizacion",
-            "Referencia", "Tipo de Transaccion", "Monto"
-        ]
-    }
-
-    transfer_schema = {
-        "type":
-        "object",
-        "properties": {
-            "addressee": {
-                "type": "string"
-            },
-            "sender": {
-                "type": "string"
-            },
-            "account": {
-                "type": "string"
-            },
-            "date": {
-                "type": "string"
-            },
-            "amount": {
-                "type": "string"
-            },
-            "description": {
-                "type": "string"
-            },
-            "reference": {
-                "type": "string"
-            }
-        },
-        "required": [
-            "addressee", "sender", "account", "date", "amount", "description",
-            "reference"
-        ]
-    }
-
-    def __init__(self) -> None:
-        """Initializes the ScraperService with a text utility."""
+    def __init__(self):
+        """Initializes the BACParserFactory."""
+        self._parsers = {
+            OperationType.TRANSACTION: TransactionParser(),
+            OperationType.TRANSFER: TransferParser(),
+        }
         self.text_utils = TextUtils()
 
-    def _extract_content_from_html(self, html_raw_text: str,
-                                   tag_query: str) -> str:
+    def get_parser(self, operation_type: OperationType) -> BaseParser:
         """
-        Parses raw HTML and extracts text content from paragraph tags.
+        Gets the parser for the given operation type.
 
         Args:
-            html_raw_text: The raw HTML string to process.
+            operation_type: The type of operation.
 
         Returns:
-            The extracted and concatenated text content.
+            The parser for the given operation type.
         """
-        normalized_html = self.text_utils.normalize_text(
-            html_raw_text.replace("\n", ""))
-        soup = BeautifulSoup(normalized_html, "html.parser")
-        html_text_tags = soup.find_all(tag_query)
-        return "".join(f"{tag.text}$%" for tag in html_text_tags)
+        parser = self._parsers.get(operation_type)
+        if not parser:
+            raise ValueError(f"No parser found for operation type: {operation_type}")
+        return parser
 
-    def _create_dict_from_match(self, match: tuple,
-                                keys: list[str]) -> dict[str, str]:
+    def get_operation_type(self, text: str) -> OperationType:
         """
-        Creates a dictionary from a regex match and a list of keys.
+        Determines the operation type from the given text.
 
         Args:
-            match: The regex match tuple.
-            keys: A list of keys for the dictionary.
+            text: The text to analyze.
 
         Returns:
-            The structured dictionary of the details.
+            The operation type.
         """
-        return {keys[i]: match[i] for i in range(len(keys))}
-
-    def get_operation_type(self, text):
         text = self.text_utils.normalize_text(text)
         if "transferencia" in text:
-            return self.OperationType.TRANSFER
+            return OperationType.TRANSFER
         elif "transaccion" in text:
-            return self.OperationType.TRANSACTION
+            return OperationType.TRANSACTION
         return None
-
-    def scrape_transaction(self, html_raw_text: str) -> dict[str, str]:
-        """
-        Parses a BAC transaction from an HTML string.
-
-        Args:
-            html_raw_text: The raw HTML string of the transaction email.
-
-        Returns:
-            A dictionary of the transaction details.
-        """
-        content = self._extract_content_from_html(html_raw_text=html_raw_text,
-                                                  tag_query="p")
-        matches = re.findall(self._BAC_TRANSACTION_PATTERN, content, re.DOTALL)
-
-        return {
-            key: match[2].strip()
-            for match in matches
-            if (key := (match[0] if match[0] else match[1]))
-        }
-
-    def scrape_transfer(self, html_raw_text: str) -> dict[str, str]:
-        """
-        Parses a BAC transfer from an HTML string.
-
-        Args:
-            html_raw_text: The raw HTML string of the transfer email.
-
-        Returns:
-            A dictionary of the transfer details, or an empty dictionary
-            if no transfer is found.
-        """
-        result = {}
-
-        content = self._extract_content_from_html(html_raw_text=html_raw_text,
-                                                  tag_query="p")
-        matches = re.findall(self._BAC_TRANSFER_PATTERN, content, re.DOTALL)
-
-        for match in matches:
-            result.update({
-                "addressee": match[0],
-                "sender": match[1],
-                "account": match[2],
-                "date": " ".join([match[3], match[4]]),
-                "amount": match[5],
-                "description": match[6],
-                "reference": match[7],
-            })
-        return result
-
-    def validate(self, data, schema):
-        try:
-            validate(instance=data, schema=schema)
-            return True
-        except ValidationError as e:
-            print(e)
-            return False

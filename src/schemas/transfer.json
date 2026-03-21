@@ -1,0 +1,35 @@
+{
+    "type": "object",
+    "properties": {
+        "addressee": {
+            "type": "string"
+        },
+        "sender": {
+            "type": "string"
+        },
+        "account": {
+            "type": "string"
+        },
+        "date": {
+            "type": "string"
+        },
+        "amount": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "reference": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "addressee",
+        "sender",
+        "account",
+        "date",
+        "amount",
+        "description",
+        "reference"
+    ]
+}
