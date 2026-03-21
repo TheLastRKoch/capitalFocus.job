@@ -18,10 +18,11 @@ class TransactionParser(BaseParser):
         Returns:
             A dictionary of the transaction details.
         """
-        content = HtmlUtils.extract_content_from_html(html_raw_text=html_raw_text,
-                                                      tag_query="p")
+        content = HtmlUtils.extract_content_from_html(
+            html_raw_text=html_raw_text, tag_query="p")
 
-        findings = re.findall(self._BAC_TRANSACTION_PATTERN, content, re.DOTALL)
+        findings = re.findall(self._BAC_TRANSACTION_PATTERN, content,
+                              re.DOTALL)
 
         data = {}
 

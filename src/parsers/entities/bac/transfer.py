@@ -21,8 +21,8 @@ class TransferParser(BaseParser):
         """
         result = {}
 
-        content = HtmlUtils.extract_content_from_html(html_raw_text=html_raw_text,
-                                                      tag_query="p")
+        content = HtmlUtils.extract_content_from_html(
+            html_raw_text=html_raw_text, tag_query="p")
         matches = re.findall(self._BAC_TRANSFER_PATTERN, content, re.DOTALL)
 
         for match in matches:

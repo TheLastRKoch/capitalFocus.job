@@ -42,7 +42,8 @@ class GmailService:
 
         self.engine = build('gmail', 'v1', credentials=creds)
 
-    def _find_body_parts(self, parts: list[dict]) -> tuple[Optional[str], Optional[str]]:
+    def _find_body_parts(
+            self, parts: list[dict]) -> tuple[Optional[str], Optional[str]]:
         """
         Recursively search for plain text and HTML body parts within email payloads.
 
@@ -77,7 +78,8 @@ class GmailService:
 
         return text_part, html_part
 
-    def get_email_content(self, email: dict) -> tuple[Optional[str], Optional[str]]:
+    def get_email_content(self,
+                          email: dict) -> tuple[Optional[str], Optional[str]]:
         """
         Extract the text and HTML content from a given email message.
 
@@ -158,6 +160,7 @@ class GmailService:
     FIXME: This method add a label but do not remove the previos label
     current_labels = message.get('labelIds', [])
     '''
+
     def move_to_label(self,
                       message_id: str,
                       label_name: str,

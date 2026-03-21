@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Tuple
 
 class JsonMapperService:
     """
-    A utility class that maps disparate, nested JSON structures into a unified, 
+    A utility class that maps disparate, nested JSON structures into a unified,
     flat dictionary based on user-defined tuple paths.
     """
 
@@ -14,7 +14,7 @@ class JsonMapperService:
         Initialize with a mapping schema.
 
         Args:
-            schema: A dictionary where the key is the desired output field name 
+            schema: A dictionary where the key is the desired output field name
                     and the value is a tuple representing the sequential keys to traverse.
                     Example: {'employee_name': ('company', 'hr', 'name')}
         """

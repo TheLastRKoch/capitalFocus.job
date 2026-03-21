@@ -33,7 +33,8 @@ class FactoryParser:
         """
         parser = self._parsers.get(operation_type)
         if not parser:
-            raise ValueError(f"No parser found for operation type: {operation_type}")
+            raise ValueError(
+                f"No parser found for operation type: {operation_type}")
         return parser
 
     def get_operation_type(self, text: str) -> OperationType:
