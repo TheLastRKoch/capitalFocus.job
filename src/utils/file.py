@@ -32,6 +32,13 @@ def get_unique_filepath(filepath: str) -> Path:
         counter += 1
 
 
-def write(path, content):
+def write(path: str, content: str) -> None:
+    """
+    Writes content to a file.
+
+    Args:
+        path (str): The path to the file.
+        content (str): The content to write to the file.
+    """
     with open(path, 'w') as file:
         file.write(content)

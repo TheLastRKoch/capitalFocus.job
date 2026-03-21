@@ -18,7 +18,8 @@ class HtmlUtils:
             The extracted and concatenated text content.
         """
         text_utils = TextUtils()
-        normalized_html = text_utils.normalize_text(html_raw_text.replace("", ""))
+        normalized_html = text_utils.normalize_text(
+            html_raw_text.replace("", ""))
         soup = BeautifulSoup(normalized_html, "html.parser")
         html_text_tags = soup.find_all(tag_query)
         return "".join(f"{tag.text}$%" for tag in html_text_tags)

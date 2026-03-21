@@ -3,7 +3,8 @@ from services.gmail import GmailService
 from services.validator import ValidatorService
 
 
-def process_email(email_id: str, gmail_service: GmailService, parser_factory: FactoryParser):
+def process_email(email_id: str, gmail_service: GmailService,
+                  parser_factory: FactoryParser):
     """
     Processes a single email.
 
