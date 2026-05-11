@@ -138,3 +138,4 @@ dmypy.json
 /resources
 /examples
 /src/secrets/
+/src/dummy.py
