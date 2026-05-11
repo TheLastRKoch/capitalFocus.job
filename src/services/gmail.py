@@ -1,6 +1,6 @@
-from typing import Optional
 import base64
 import os
+from typing import Optional
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -45,13 +45,13 @@ class GmailService:
     def _find_body_parts(
             self, parts: list[dict]) -> tuple[Optional[str], Optional[str]]:
         """
-        Recursively search for plain text and HTML body parts within email payloads.
+        Recursively search for plain text and HTML body parts.
 
         Args:
-            parts (list[dict]): A list of MIME parts from the email payload.
+            parts: A list of MIME parts from the email payload.
 
         Returns:
-            tuple[Optional[str], Optional[str]]: A tuple containing the text part and HTML part, if found.
+            A tuple containing the text part and HTML part, if found.
         """
         html_part = None
         text_part = None
@@ -84,10 +84,10 @@ class GmailService:
         Extract the text and HTML content from a given email message.
 
         Args:
-            email (dict): The email message retrieved from the Gmail API.
+            email: The email message retrieved from the Gmail API.
 
         Returns:
-            tuple[Optional[str], Optional[str]]: A tuple of the decoded plain text and HTML content.
+            A tuple of the decoded plain text and HTML content.
         """
         text = None
         html = None
@@ -99,6 +99,8 @@ class GmailService:
             return base64.urlsafe_b64decode(data).decode('utf-8',
                                                          errors='replace')
 
+        encoded_text = None
+        encoded_html = None
         if 'parts' in payload:
             encoded_text, encoded_html = self._find_body_parts(
                 payload['parts'])
@@ -119,19 +121,19 @@ class GmailService:
         Retrieve the full content of a specific email message by its ID.
 
         Args:
-            message_id (str): The ID of the message to retrieve.
-            prefer_html (bool): Whether to prefer HTML content (unused in this method but kept for signature).
-            fallback_to_text (bool): Whether to fallback to text content (unused in this method).
+            message_id: The ID of the message to retrieve.
+            prefer_html: Whether to prefer HTML content (unused).
+            fallback_to_text: Whether to fallback to text content (unused).
 
         Returns:
-            Optional[dict]: The message payload, or None if an error occurred.
+            The message payload, or None if an error occurred.
         """
         try:
             return self.engine.users().messages().get(userId='me',
                                                       id=message_id,
                                                       format='full').execute()
         except HttpError as e:
-            print(f"Error fetching message {message_id}: {e}")
+            print(f'Error fetching message {message_id}: {e}')
             return None
 
     def get_email_list(self, query: str) -> dict:
@@ -139,10 +141,10 @@ class GmailService:
         Query for a list of emails matching a specific search string.
 
         Args:
-            query (str): The search query to filter emails (e.g., 'label:inbox').
+            query: The search query to filter emails (e.g., 'label:inbox').
 
         Returns:
-            dict: A response dictionary containing a list of matching messages.
+            A response dictionary containing a list of matching messages.
         """
         return self.engine.users().messages().list(userId='me',
                                                    q=query).execute()
@@ -152,29 +154,24 @@ class GmailService:
         Retrieve a list of all custom and system labels for the user.
 
         Returns:
-            dict: A dictionary containing the list of labels.
+            A dictionary containing the list of labels.
         """
         return self.engine.users().labels().list(userId='me').execute()
-
-    '''
-    FIXME: This method add a label but do not remove the previos label
-    current_labels = message.get('labelIds', [])
-    '''
 
     def move_to_label(self,
                       message_id: str,
                       label_name: str,
                       create_if_missing: bool = False) -> bool:
         """
-        Move an email to a specific label by removing the 'INBOX' label and adding the target label.
+        Move an email to a specific label.
 
         Args:
-            message_id (str): The ID of the message to move.
-            label_name (str): The name of the target label.
-            create_if_missing (bool): Whether to create the label if it does not already exist.
+            message_id: The ID of the message to move.
+            label_name: The name of the target label.
+            create_if_missing: Whether to create the label if it missing.
 
         Returns:
-            bool: True if the operation was successful, False otherwise.
+            True if the operation was successful, False otherwise.
         """
         try:
             results = self.engine.users().labels().list(userId='me').execute()
@@ -186,7 +183,6 @@ class GmailService:
                     label_id = lbl['id']
                     break
 
-            # Create label if allowed and not found
             if not label_id and create_if_missing:
                 new_label_body = {
                     'name': label_name,
@@ -196,7 +192,7 @@ class GmailService:
                 created = self.engine.users().labels().create(
                     userId='me', body=new_label_body).execute()
                 label_id = created['id']
-                print(f"Created new label: {label_name}")
+                print(f'Created new label: {label_name}')
 
             if not label_id:
                 print(

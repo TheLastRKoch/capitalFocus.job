@@ -28,5 +28,5 @@ class ValidatorService:
             validate(instance=data, schema=self.schema)
             return True
         except ValidationError as e:
-            print(f"Validation Error: {e.message}")
+            print(f'Validation Error: {e.message}')
             return False

@@ -1,4 +1,4 @@
-from enviroment import TEABLE_TRANSACTIONS
+from environment import TEABLE_TRANSACTIONS
 from services.teable import TeableService
 
 

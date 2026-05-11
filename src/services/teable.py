@@ -1,6 +1,5 @@
-from enviroment import TEABLE_API_TOKEN, TEABLE_URL
-
 import requests
+from environment import TEABLE_API_TOKEN, TEABLE_URL
 
 
 class TeableService:
@@ -11,27 +10,20 @@ class TeableService:
         Generate HTTP headers for Teable API requests.
 
         Returns:
-            dict[str, str]: A dictionary containing the authorization bearer token.
+            A dictionary containing the authorization bearer token.
         """
-        return {'Authorization': 'Bearer ' + TEABLE_API_TOKEN}
+        return {'Authorization': f'Bearer {TEABLE_API_TOKEN}'}
 
     def read(self, table_id: str) -> dict:
         """
-        Read all records from a specific table by its ID.
+        Retrieve records from a specified table.
 
         Args:
-            table_id (str): The unique identifier of the table.
+            table_id: The ID of the table to read.
 
         Returns:
-            dict: The JSON response containing the table records.
+            The JSON response from the Teable API.
         """
-        url = f"{TEABLE_URL}/api/table/{table_id}/record"
-
-        response = requests.request(
-            "GET",
-            url,
-            headers=self.__get_headers(),
-        )
-
-        response.raise_for_status()
+        url = f'{TEABLE_URL}/api/table/{table_id}/record'
+        response = requests.get(url, headers=self.__get_headers(), timeout=10)
         return response.json()
