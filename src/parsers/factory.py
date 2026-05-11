@@ -34,7 +34,7 @@ class FactoryParser:
         parser = self._parsers.get(operation_type)
         if not parser:
             raise ValueError(
-                f"No parser found for operation type: {operation_type}")
+                f'No parser found for operation type: {operation_type}')
         return parser
 
     def get_operation_type(self, text: str) -> OperationType:
@@ -48,8 +48,8 @@ class FactoryParser:
             The operation type.
         """
         text = self.text_utils.normalize_text(text)
-        if "transferencia" in text.lower():
+        if 'transferencia' in text.lower():
             return OperationType.TRANSFER
-        elif "transaccion" in text.lower():
+        if 'transaccion' in text.lower():
             return OperationType.TRANSACTION
         return None

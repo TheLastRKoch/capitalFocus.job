@@ -21,25 +21,25 @@ def process_email(email_id: str, gmail_service: GmailService,
     print(f'Selected operation type: {operation_type}')
 
     if not operation_type:
-        print("Could not determine operation type. Skipping email.")
+        print('Could not determine operation type. Skipping email.')
         return
 
     try:
         parser = parser_factory.get_parser(operation_type)
         data = parser.parse(html)
 
-        schema_path = f"src/schemas/{operation_type.name.lower()}.json"
+        schema_path = f'src/schemas/{operation_type.name.lower()}.json'
         validator = ValidatorService(schema_path)
 
-        print("Processed data:", data)
+        print('Processed data:', data)
 
         if not validator.validate(data):
-            raise Exception("Data validation failed.")
+            raise Exception('Data validation failed.')
 
-        print("Passed validation")
+        print('Passed validation')
 
     except Exception as e:
-        print(f"Error processing email {email_id}: {e}")
+        print(f'Error processing email {email_id}: {e}')
         # TODO: Move the email to the error label
 
 
@@ -51,15 +51,15 @@ def main():
     parser_factory = FactoryParser()
 
     try:
-        email_list = gmail_service.get_email_list("label:job-new")["messages"]
+        email_list = gmail_service.get_email_list('label:job-new')['messages']
         print(f'Found {len(email_list)} emails to process')
 
         for email in email_list:
-            process_email(email["id"], gmail_service, parser_factory)
+            process_email(email['id'], gmail_service, parser_factory)
 
     except Exception as error:
-        print(f"Something went wrong: {error}")
+        print(f'Something went wrong: {error}')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
