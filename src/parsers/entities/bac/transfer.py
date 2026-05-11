@@ -28,13 +28,22 @@ class TransferParser(BaseParser):
 
         for match in matches:
             result.update({
-                'addressee': match[0],
-                'sender': match[1],
-                'account': match[2],
-                'date': ' '.join([match[3], match[4]]),
-                'amount': match[5],
-                'description': match[6],
-                'reference': match[7],
+                'addressee':
+                match[0],
+                'sender':
+                match[1],
+                'account':
+                match[2],
+                'transactionType':
+                "TRANSFERENCIA",
+                'date':
+                ' '.join([match[3], match[4]]),
+                'amount':
+                float(match[5].replace(".", "").replace(",", ".")),
+                'description':
+                match[6],
+                'reference':
+                match[7],
             })
         return result
 
@@ -43,6 +52,7 @@ class TransferParser(BaseParser):
             'date': ('date'),
             'amount': ('amount'),
             'reference': ('reference'),
+            'transactionType': ('transactionType'),
         }
 
         mapper = JsonMapperService(schema)

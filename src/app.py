@@ -1,10 +1,12 @@
 from parsers.factory import FactoryParser
 from services.gmail import GmailService
 from services.validator import ValidatorService
+from repositories.transactions import TransactionsRepository
+import json
 
 
 def process_email(email_id: str, gmail_service: GmailService,
-                  parser_factory: FactoryParser):
+                  parser_factory: FactoryParser, transaction_repo):
     """
     Processes a single email.
 
@@ -38,8 +40,21 @@ def process_email(email_id: str, gmail_service: GmailService,
 
         print('Passed validation')
 
-        result = parser.mapper(data)
-        print(result)
+        json_mapped = parser.mapper(data)
+
+        transaction_repo.add(
+            date=json_mapped.get('date'),
+            commerce=json_mapped.get('commerce'),
+            amount=json_mapped.get('amount'),
+            location=json_mapped.get('location'),
+            card=json_mapped.get('card'),
+            authorization=json_mapped.get('authorization'),
+            reference=json_mapped.get('reference'),
+            transactionType=json_mapped.get('transactionType'),
+            status=json_mapped.get('status'),
+            json=json.dumps(data),
+            html=html,
+        )
 
     except Exception as e:
         print(f'Error processing email {email_id}: {e}')
@@ -52,13 +67,15 @@ def main():
     """
     gmail_service = GmailService()
     parser_factory = FactoryParser()
+    transaction_repo = TransactionsRepository()
 
     try:
         email_list = gmail_service.get_email_list('label:job-new')['messages']
         print(f'Found {len(email_list)} emails to process')
 
         for email in email_list:
-            process_email(email['id'], gmail_service, parser_factory)
+            process_email(email['id'], gmail_service, parser_factory,
+                          transaction_repo)
 
     except Exception as error:
         print(f'Something went wrong: {error}')

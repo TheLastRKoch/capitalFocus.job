@@ -17,3 +17,6 @@ class TransactionsRepository:
             dict: The JSON response containing the list of transactions.
         """
         return self.teable.read(TEABLE_TRANSACTIONS)
+
+    def add(self, **kwargs):
+        self.teable.add(TEABLE_TRANSACTIONS, **kwargs)

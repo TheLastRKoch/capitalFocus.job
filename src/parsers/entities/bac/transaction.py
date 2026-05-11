@@ -30,22 +30,25 @@ class TransactionParser(BaseParser):
         for item in findings:
             match item[0]:
                 case 'VISA' | 'MASTER' | 'AMEX':
-                    data['Tarjeta'] = item[1]
+                    data['Tarjeta'] = item[1].replace("*", "")
+                case 'Monto':
+                    data['Moneda'] = item[1][:3]
+                    data['Monto'] = float(item[1][4:].replace(',', ''))
                 case _:
                     data[item[0]] = item[1]
         return data
 
     def mapper(self, data):
         schema = {
-            'date': ('user', 'age'),
-            'commerce': ('user', 'age'),
-            'amount': ('user', 'name'),
-            'location': ('user', 'age'),
-            'card': ('user', 'age'),
-            'authorization': ('user', 'age'),
-            'reference': ('user', 'age'),
-            'transactionType': ('user', 'age'),
-            'status': ('user', 'age'),
+            'date': ('Fecha'),
+            'commerce': ('Comercio'),
+            'currency': ('Moneda'),
+            'amount': ('Monto'),
+            'location': ('Ciudad y pais'),
+            'card': ('Tarjeta'),
+            'authorization': ('Autorizacion'),
+            'reference': ('Referencia'),
+            'transactionType': ('Tipo de Transaccion')
         }
 
         mapper = JsonMapperService(schema)
