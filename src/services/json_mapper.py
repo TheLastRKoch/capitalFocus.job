@@ -22,20 +22,30 @@ class JsonMapperService:
         """
         Traverse the nested dictionary along the given path.
         """
-        return reduce(lambda d, k: d.get(k)
-                      if isinstance(d, dict) else None, path, data)
+
+        if isinstance(path, str):
+            return data.get(path)
+        elif isinstance(path, tuple):
+            for key in path:
+                data = data.get(key)
+            return data
+        else:
+            return None
 
     def transform(self, source_json: Dict[str, Any]) -> Dict[str, Any]:
         """
         Transform a single JSON object based on the schema.
         """
-        return {
-            new_key: self._resolve(source_json, path)
-            for new_key, path in self.schema.items()
-        }
+        result = {}
+        for new_key, path in self.schema.items():
+            value = self._resolve(source_json, path)
+            if value:
+                result[new_key] = value
+        return result
 
     def transform_batch(
-            self, source_json_list: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+            self, source_json_list: List[Dict[str,
+                                              Any]]) -> List[Dict[str, Any]]:
         """
         Transform a list of JSON objects based on the schema.
         """

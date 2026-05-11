@@ -1,6 +1,7 @@
 import re
 from parsers.base import BaseParser
 from utils.html import HtmlUtils
+from services.json_mapper import JsonMapperService
 
 
 class TransactionParser(BaseParser):
@@ -33,3 +34,19 @@ class TransactionParser(BaseParser):
                 case _:
                     data[item[0]] = item[1]
         return data
+
+    def mapper(self, data):
+        schema = {
+            'date': ('user', 'age'),
+            'commerce': ('user', 'age'),
+            'amount': ('user', 'name'),
+            'location': ('user', 'age'),
+            'card': ('user', 'age'),
+            'authorization': ('user', 'age'),
+            'reference': ('user', 'age'),
+            'transactionType': ('user', 'age'),
+            'status': ('user', 'age'),
+        }
+
+        mapper = JsonMapperService(schema)
+        return mapper.transform(data)

@@ -38,6 +38,9 @@ def process_email(email_id: str, gmail_service: GmailService,
 
         print('Passed validation')
 
+        result = parser.mapper(data)
+        print(result)
+
     except Exception as e:
         print(f'Error processing email {email_id}: {e}')
         # TODO: Move the email to the error label

@@ -1,6 +1,7 @@
 import re
 from parsers.base import BaseParser
 from utils.html import HtmlUtils
+from services.json_mapper import JsonMapperService
 
 
 class TransferParser(BaseParser):
@@ -36,3 +37,18 @@ class TransferParser(BaseParser):
                 'reference': match[7],
             })
         return result
+
+    def mapper(self, data):
+        schema = {
+            'date': ('date'),
+            'amount': ('amount'),
+            'reference': ('reference'),
+        }
+
+        mapper = JsonMapperService(schema)
+        mapped_json = mapper.transform(data)
+
+        mapped_json[
+            "commerce"] = f"{data.get('sender')} to {data.get('addressee')} {data.get('description')}"
+
+        return mapped_json

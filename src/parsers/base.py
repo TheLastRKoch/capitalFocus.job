@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from services.json_mapper import JsonMapperService
 
 
 class BaseParser(ABC):
@@ -15,3 +16,6 @@ class BaseParser(ABC):
         Returns:
             A dictionary of the parsed data.
         """
+
+    def mapper(self, data):
+        """"""
