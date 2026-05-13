@@ -1,6 +1,6 @@
 import base64
 import os
-from typing import Optional
+from typing import Optional, List, Dict, Tuple
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -24,6 +24,11 @@ class GmailService:
 
     def __init__(self) -> None:
         """Initialize the Gmail service and authenticate the user."""
+        creds = self._authenticate()
+        self.engine = build('gmail', 'v1', credentials=creds)
+
+    def _authenticate(self) -> Credentials:
+        """Authenticate with Gmail and return credentials."""
         creds = None
 
         if os.path.exists(TOKEN_FILE):
@@ -39,11 +44,10 @@ class GmailService:
 
             with open(TOKEN_FILE, 'w') as token:
                 token.write(creds.to_json())
-
-        self.engine = build('gmail', 'v1', credentials=creds)
+        return creds
 
     def _find_body_parts(
-            self, parts: list[dict]) -> tuple[Optional[str], Optional[str]]:
+            self, parts: List[Dict]) -> Tuple[Optional[str], Optional[str]]:
         """
         Recursively search for plain text and HTML body parts.
 
@@ -79,7 +83,7 @@ class GmailService:
         return text_part, html_part
 
     def get_email_content(self,
-                          email: dict) -> tuple[Optional[str], Optional[str]]:
+                          email: Dict) -> Tuple[Optional[str], Optional[str]]:
         """
         Extract the text and HTML content from a given email message.
 
@@ -96,8 +100,8 @@ class GmailService:
 
         if 'body' in payload and 'data' in payload['body']:
             data = payload['body']['data']
-            return base64.urlsafe_b64decode(data).decode('utf-8',
-                                                         errors='replace')
+            decoded_data = base64.urlsafe_b64decode(data).decode('utf-8', errors='replace')
+            return decoded_data, decoded_data # Both text and html if simple body
 
         encoded_text = None
         encoded_html = None
@@ -116,7 +120,7 @@ class GmailService:
     def get_message(self,
                     message_id: str,
                     prefer_html: bool = True,
-                    fallback_to_text: bool = True) -> Optional[dict]:
+                    fallback_to_text: bool = True) -> Optional[Dict]:
         """
         Retrieve the full content of a specific email message by its ID.
 
@@ -136,7 +140,7 @@ class GmailService:
             print(f'Error fetching message {message_id}: {e}')
             return None
 
-    def get_email_list(self, query: str) -> dict:
+    def get_email_list(self, query: str) -> Dict:
         """
         Query for a list of emails matching a specific search string.
 
@@ -149,7 +153,7 @@ class GmailService:
         return self.engine.users().messages().list(userId='me',
                                                    q=query).execute()
 
-    def get_label_list(self) -> dict:
+    def get_label_list(self) -> Dict:
         """
         Retrieve a list of all custom and system labels for the user.
 
@@ -196,7 +200,7 @@ class GmailService:
 
             if not label_id:
                 print(
-                    f"Label '{label_name}' not found and creation not allowed."
+                    f'Label \'{label_name}\' not found and creation not allowed.'
                 )
                 return False
 

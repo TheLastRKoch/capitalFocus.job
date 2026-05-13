@@ -1,20 +1,21 @@
 import json
+from typing import Dict, Any
 from jsonschema import validate, ValidationError
 
 
 class ValidatorService:
     """A service for validating data against JSON schemas."""
 
-    def __init__(self, schema_path: str):
+    def __init__(self, schema_path: str) -> None:
         """Initializes the ValidatorService with a schema."""
         self.schema = self._load_schema(schema_path)
 
-    def _load_schema(self, schema_path: str) -> dict:
+    def _load_schema(self, schema_path: str) -> Dict[str, Any]:
         """Loads a JSON schema from a file."""
-        with open(schema_path, 'r') as file:
+        with open(schema_path, 'r', encoding='utf-8') as file:
             return json.load(file)
 
-    def validate(self, data: dict) -> bool:
+    def validate(self, data: Dict[str, Any]) -> bool:
         """
         Validates data against the loaded schema.
 

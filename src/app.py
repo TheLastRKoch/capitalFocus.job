@@ -6,7 +6,7 @@ import json
 
 
 def process_email(email_id: str, gmail_service: GmailService,
-                  parser_factory: FactoryParser, transaction_repo):
+                  parser_factory: FactoryParser, transaction_repo: TransactionsRepository):
     """
     Processes a single email.
 
@@ -14,8 +14,12 @@ def process_email(email_id: str, gmail_service: GmailService,
         email_id: The ID of the email to process.
         gmail_service: The Gmail service instance.
         parser_factory: The parser factory instance.
+        transaction_repo: The transaction repository instance.
     """
     message = gmail_service.get_message(email_id)
+    if not message:
+        return
+
     text, html = gmail_service.get_email_content(message)
     print(text)
 
@@ -36,25 +40,28 @@ def process_email(email_id: str, gmail_service: GmailService,
         print('Processed data:', data)
 
         if not validator.validate(data):
-            raise Exception('Data validation failed.')
+            raise ValueError('Data validation failed.')
 
         print('Passed validation')
 
         json_mapped = parser.mapper(data)
 
-        transaction_repo.add(
-            date=json_mapped.get('date'),
-            commerce=json_mapped.get('commerce'),
-            amount=json_mapped.get('amount'),
-            location=json_mapped.get('location'),
-            card=json_mapped.get('card'),
-            authorization=json_mapped.get('authorization'),
-            reference=json_mapped.get('reference'),
-            transactionType=json_mapped.get('transactionType'),
-            status=json_mapped.get('status'),
-            json=json.dumps(data),
-            html=html,
-        )
+        # Ensure all required fields are present with defaults
+        transaction_data = {
+            'date': json_mapped.get('date'),
+            'commerce': json_mapped.get('commerce'),
+            'amount': json_mapped.get('amount'),
+            'location': json_mapped.get('location'),
+            'card': json_mapped.get('card'),
+            'authorization': json_mapped.get('authorization'),
+            'reference': json_mapped.get('reference'),
+            'transactionType': json_mapped.get('transactionType'),
+            'status': json_mapped.get('status'),
+            'json': json.dumps(data),
+            'html': html,
+        }
+
+        transaction_repo.add(**transaction_data)
 
     except Exception as e:
         print(f'Error processing email {email_id}: {e}')
@@ -70,7 +77,8 @@ def main():
     transaction_repo = TransactionsRepository()
 
     try:
-        email_list = gmail_service.get_email_list('label:job-new')['messages']
+        email_list_response = gmail_service.get_email_list('label:job-new')
+        email_list = email_list_response.get('messages', [])
         print(f'Found {len(email_list)} emails to process')
 
         for email in email_list:

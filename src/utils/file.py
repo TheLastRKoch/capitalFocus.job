@@ -39,5 +39,5 @@ def write(path: str, content: str) -> None:
         path: The path to the file.
         content: The content to write to the file.
     """
-    with open(path, 'w') as file:
+    with open(path, 'w', encoding='utf-8') as file:
         file.write(content)
