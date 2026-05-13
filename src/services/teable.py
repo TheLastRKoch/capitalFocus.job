@@ -26,4 +26,15 @@ class TeableService:
         """
         url = f'{TEABLE_URL}/api/table/{table_id}/record'
         response = requests.get(url, headers=self.__get_headers(), timeout=10)
+        response.raise_for_status()
+        return response.json()
+
+    def add(self, table_id, **kwargs):
+        url = f'{TEABLE_URL}/api/table/{table_id}/record'
+        data = {"fieldKeyType": "name", "records": [{"fields": kwargs}]}
+        response = requests.post(url,
+                                 headers=self.__get_headers(),
+                                 json=data,
+                                 timeout=10)
+        response.raise_for_status()
         return response.json()
