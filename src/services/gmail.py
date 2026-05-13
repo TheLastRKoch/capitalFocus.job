@@ -100,8 +100,9 @@ class GmailService:
 
         if 'body' in payload and 'data' in payload['body']:
             data = payload['body']['data']
-            decoded_data = base64.urlsafe_b64decode(data).decode('utf-8', errors='replace')
-            return decoded_data, decoded_data # Both text and html if simple body
+            decoded_data = base64.urlsafe_b64decode(data).decode(
+                'utf-8', errors='replace')
+            return decoded_data, decoded_data  # Both text and html if simple body
 
         encoded_text = None
         encoded_html = None
@@ -117,17 +118,12 @@ class GmailService:
 
         return text, html
 
-    def get_message(self,
-                    message_id: str,
-                    prefer_html: bool = True,
-                    fallback_to_text: bool = True) -> Optional[Dict]:
+    def get_message(self, message_id: str) -> Optional[Dict]:
         """
         Retrieve the full content of a specific email message by its ID.
 
         Args:
             message_id: The ID of the message to retrieve.
-            prefer_html: Whether to prefer HTML content (unused).
-            fallback_to_text: Whether to fallback to text content (unused).
 
         Returns:
             The message payload, or None if an error occurred.

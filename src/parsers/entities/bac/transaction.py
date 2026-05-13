@@ -35,10 +35,7 @@ class TransactionParser(BaseParser):
                     data['Tarjeta'] = value.replace('*', '')
                 case 'Monto':
                     data['Moneda'] = value[:3]
-                    try:
-                        data['Monto'] = float(value[4:].replace(',', ''))
-                    except ValueError:
-                        data['Monto'] = 0.0
+                    data['Monto'] = float(value[4:].replace(',', ''))
                 case _:
                     data[key] = value
         return data
