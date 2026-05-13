@@ -11,5 +11,5 @@ def base_64_decode(encoded_text: str) -> str:
     Returns:
         The decoded plain text string.
     """
-    return base64.urlsafe_b64decode(encoded_text).decode('utf-8',
-                                                         errors='replace')
+    return base64.urlsafe_b64decode(encoded_text).decode(
+        'utf-8', errors='replace')

@@ -1,7 +1,7 @@
 import re
+from typing import Dict, Any
 from parsers.base import BaseParser
 from utils.html import HtmlUtils
-from services.json_mapper import JsonMapperService
 
 
 class TransferParser(BaseParser):
@@ -9,7 +9,7 @@ class TransferParser(BaseParser):
 
     _BAC_TRANSFER_PATTERN = r'Estimado\(a\)\s([A-z\s]+)\s\:.+?le\scomunica\sque\s([A-z\s]+)\srealizo.+?N°\s([\*\d]+)\.\$.+?dia\s([\d\-]+)\sa\slas\s([\d\:]+).+?por\sun\smonto\sde\s([\d\.\,]+).+?por\sconcepto\sde\:\$\%(.+?)\$\%.+?referencia\ses\s(.+?)\$\%'
 
-    def parse(self, html_raw_text: str) -> dict:
+    def parse(self, html_raw_text: str) -> Dict[str, Any]:
         """
         Parses a BAC transfer from an HTML string.
 
@@ -28,37 +28,35 @@ class TransferParser(BaseParser):
 
         for match in matches:
             result.update({
-                'addressee':
-                match[0],
-                'sender':
-                match[1],
-                'account':
-                match[2],
-                'transactionType':
-                "TRANSFERENCIA",
-                'date':
-                ' '.join([match[3], match[4]]),
-                'amount':
-                float(match[5].replace(".", "").replace(",", ".")),
-                'description':
-                match[6],
-                'reference':
-                match[7],
+                'addressee': match[0],
+                'sender': match[1],
+                'account': match[2],
+                'transactionType': 'TRANSFERENCIA',
+                'date': f'{match[3]} {match[4]}',
+                'amount': float(match[5].replace('.', '').replace(',', '.')),
+                'description': match[6],
+                'reference': match[7],
             })
         return result
 
-    def mapper(self, data):
-        schema = {
-            'date': ('date'),
-            'amount': ('amount'),
-            'reference': ('reference'),
-            'transactionType': ('transactionType'),
+    def get_mapper_schema(self) -> Dict[str, Any]:
+        """
+        Returns the schema for the JsonMapperService.
+        """
+        return {
+            'date': 'date',
+            'amount': 'amount',
+            'reference': 'reference',
+            'transactionType': 'transactionType',
         }
 
-        mapper = JsonMapperService(schema)
-        mapped_json = mapper.transform(data)
-
-        mapped_json[
-            "commerce"] = f"{data.get('sender')} to {data.get('addressee')} {data.get('description')}"
-
+    def mapper(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Maps the parsed data and adds custom commerce field.
+        """
+        mapped_json = super().mapper(data)
+        sender = data.get('sender', '')
+        addressee = data.get('addressee', '')
+        description = data.get('description', '')
+        mapped_json['commerce'] = f'{sender} to {addressee} {description}'
         return mapped_json
