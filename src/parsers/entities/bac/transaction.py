@@ -2,12 +2,17 @@ import re
 from typing import Dict, Any
 from parsers.base import BaseParser
 from utils.html import HtmlUtils
+from utils.date import DateUtils
+from environment import TARGET_FORMAT
 
 
 class TransactionParser(BaseParser):
     """A parser for BAC transactions."""
 
-    _BAC_TRANSACTION_PATTERN = r'(?:([A-z ]+))(?:\:\$\%|\$\%)(.+?)\$\%'
+    def __init__(self):
+        self._BAC_TRANSACTION_PATTERN = r'(?:([A-z ]+))(?:\:\$\%|\$\%)(.+?)\$\%'
+        self.DATE_SOURCE_FORMAT = '%m %d, %Y, %H:%M'
+        self.date_utils = DateUtils()
 
     def parse(self, html_raw_text: str) -> Dict[str, Any]:
         """
@@ -31,11 +36,15 @@ class TransactionParser(BaseParser):
             key = item[0]
             value = item[1]
             match key:
-                case 'VISA' | 'MASTER' | 'AMEX':
-                    data['Tarjeta'] = value.replace('*', '')
+                case 'Fecha':
+                    data['Fecha'] = self.date_utils.formatter(
+                        self.date_utils.replace_month_key_with_number(value),
+                        self.DATE_SOURCE_FORMAT, TARGET_FORMAT)
                 case 'Monto':
                     data['Moneda'] = value[:3]
                     data['Monto'] = float(value[4:].replace(',', ''))
+                case 'VISA' | 'MASTER' | 'AMEX':
+                    data['Tarjeta'] = value.replace('*', '')
                 case _:
                     data[key] = value
         return data

@@ -2,12 +2,17 @@ import re
 from typing import Dict, Any
 from parsers.base import BaseParser
 from utils.html import HtmlUtils
+from utils.date import DateUtils
+from environment import TARGET_FORMAT
 
 
 class TransferParser(BaseParser):
     """A parser for BAC transfers."""
 
-    _BAC_TRANSFER_PATTERN = r'Estimado\(a\)\s([A-z\s]+)\s\:.+?le\scomunica\sque\s([A-z\s]+)\srealizo.+?N°\s([\*\d]+)\.\$.+?dia\s([\d\-]+)\sa\slas\s([\d\:]+).+?por\sun\smonto\sde\s([\d\.\,]+).+?por\sconcepto\sde\:\$\%(.+?)\$\%.+?referencia\ses\s(.+?)\$\%'
+    def __init__(self):
+        self._BAC_TRANSFER_PATTERN = r'Estimado\(a\)\s([A-z\s]+)\s\:.+?le\scomunica\sque\s([A-z\s]+)\srealizo.+?N°\s([\*\d]+)\.\$.+?dia\s([\d\-]+)\sa\slas\s([\d\:]+).+?por\sun\smonto\sde\s([\d\.\,]+).+?por\sconcepto\sde\:\$\%(.+?)\$\%.+?referencia\ses\s(.+?)\$\%'
+        self.DATE_SOURCE_FORMAT = '%d-%m-%Y %H:%M:%S'
+        self.date_utils = DateUtils()
 
     def parse(self, html_raw_text: str) -> Dict[str, Any]:
         """
@@ -28,14 +33,24 @@ class TransferParser(BaseParser):
 
         for match in matches:
             result.update({
-                'addressee': match[0],
-                'sender': match[1],
-                'account': match[2],
-                'transactionType': 'TRANSFERENCIA',
-                'date': f'{match[3]} {match[4]}',
-                'amount': float(match[5].replace('.', '').replace(',', '.')),
-                'description': match[6],
-                'reference': match[7],
+                'addressee':
+                match[0],
+                'sender':
+                match[1],
+                'account':
+                match[2],
+                'transactionType':
+                'TRANSFERENCIA',
+                'date':
+                self.date_utils.formatter(f'{match[3]} {match[4]}',
+                                          self.DATE_SOURCE_FORMAT,
+                                          TARGET_FORMAT),
+                'amount':
+                float(match[5].replace('.', '').replace(',', '.')),
+                'description':
+                match[6],
+                'reference':
+                match[7],
             })
         return result
 
