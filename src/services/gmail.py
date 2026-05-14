@@ -158,54 +158,49 @@ class GmailService:
         """
         return self.engine.users().labels().list(userId='me').execute()
 
-    def move_to_label(self,
-                      message_id: str,
-                      label_name: str,
-                      create_if_missing: bool = False) -> bool:
+    def get_label_id_from_list(self, lables):
+        label_ids = []
+        for item in lables:
+            if 'Label_' in item:
+                label_ids.append(item)
+        return label_ids
+
+    def move_to_label(self, message_id: str, label_name: str) -> bool:
         """
         Move an email to a specific label.
 
         Args:
             message_id: The ID of the message to move.
             label_name: The name of the target label.
-            create_if_missing: Whether to create the label if it missing.
 
         Returns:
             True if the operation was successful, False otherwise.
         """
         try:
-            results = self.engine.users().labels().list(userId='me').execute()
-            labels = results.get('labels', [])
-
             label_id = None
-            for lbl in labels:
-                if lbl['name'].lower() == label_name.lower():
-                    label_id = lbl['id']
+            user_labels = self.engine.users().labels().list(
+                userId='me').execute()
+            message = self.get_message(message_id=message_id)
+            email_labels = self.get_label_id_from_list(
+                message.get('labelIds', []))
+
+            for label in user_labels.get('labels', []):
+                if label['name'].lower() == label_name.lower():
+                    label_id = label['id']
                     break
 
-            if not label_id and create_if_missing:
-                new_label_body = {
-                    'name': label_name,
-                    'labelListVisibility': 'labelShow',
-                    'messageListVisibility': 'show'
-                }
-                created = self.engine.users().labels().create(
-                    userId='me', body=new_label_body).execute()
-                label_id = created['id']
-                print(f'Created new label: {label_name}')
-
             if not label_id:
-                print(
-                    f'Label \'{label_name}\' not found and creation not allowed.'
-                )
+                print(f'Label "{label_name}" not found.')
                 return False
-
-            body = {'addLabelIds': [label_id], 'removeLabelIds': ['INBOX']}
 
             self.engine.users().messages().modify(userId='me',
                                                   id=message_id,
-                                                  body=body).execute()
-
+                                                  body={
+                                                      'addLabelIds':
+                                                      [label_id],
+                                                      'removeLabelIds':
+                                                      email_labels
+                                                  }).execute()
             return True
 
         except HttpError:
