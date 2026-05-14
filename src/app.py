@@ -6,7 +6,8 @@ import json
 
 
 def process_email(email_id: str, gmail_service: GmailService,
-                  parser_factory: FactoryParser, transaction_repo: TransactionsRepository):
+                  parser_factory: FactoryParser,
+                  transaction_repo: TransactionsRepository):
     """
     Processes a single email.
 
@@ -27,8 +28,7 @@ def process_email(email_id: str, gmail_service: GmailService,
     print(f'Selected operation type: {operation_type}')
 
     if not operation_type:
-        print('Could not determine operation type. Skipping email.')
-        return
+        raise Exception('Could not determine operation type of the email.')
 
     try:
         parser = parser_factory.get_parser(operation_type)
@@ -65,7 +65,7 @@ def process_email(email_id: str, gmail_service: GmailService,
 
     except Exception as e:
         print(f'Error processing email {email_id}: {e}')
-        # TODO: Move the email to the error label
+        raise
 
 
 def main():
@@ -76,16 +76,18 @@ def main():
     parser_factory = FactoryParser()
     transaction_repo = TransactionsRepository()
 
-    try:
-        email_list_response = gmail_service.get_email_list('label:job-new')
-        email_list = email_list_response.get('messages', [])
-        print(f'Found {len(email_list)} emails to process')
+    email_list_response = gmail_service.get_email_list('label:job-new')
+    email_list = email_list_response.get('messages', [])
+    print(f'Found {len(email_list)} emails to process')
 
+    try:
         for email in email_list:
             process_email(email['id'], gmail_service, parser_factory,
                           transaction_repo)
+            gmail_service.move_to_label(email.get('id'), 'Job/Processed')
 
     except Exception as error:
+        gmail_service.move_to_label(email.get('id'), 'Job/Error')
         print(f'Something went wrong: {error}')
 
 
