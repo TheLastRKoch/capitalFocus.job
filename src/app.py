@@ -5,7 +5,7 @@ from repositories.transactions import TransactionsRepository
 import json
 
 
-def process_email(email_id: str, gmail_service: GmailService,
+def process_email(email, gmail_service: GmailService,
                   parser_factory: FactoryParser,
                   transaction_repo: TransactionsRepository):
     """
@@ -17,7 +17,7 @@ def process_email(email_id: str, gmail_service: GmailService,
         parser_factory: The parser factory instance.
         transaction_repo: The transaction repository instance.
     """
-    message = gmail_service.get_message(email_id)
+    message = gmail_service.get_message(email.get('id'))
     if not message:
         return
 
@@ -62,10 +62,11 @@ def process_email(email_id: str, gmail_service: GmailService,
         }
 
         transaction_repo.add(**transaction_data)
+        gmail_service.move_to_label(email.get('id'), 'Job/Processed')
 
-    except Exception as e:
-        print(f'Error processing email {email_id}: {e}')
-        raise
+    except Exception as error:
+        gmail_service.move_to_label(email.get('id'), 'Job/Error')
+        print(f'Something went wrong: {error}')
 
 
 def main():
@@ -80,15 +81,8 @@ def main():
     email_list = email_list_response.get('messages', [])
     print(f'Found {len(email_list)} emails to process')
 
-    try:
-        for email in email_list:
-            process_email(email['id'], gmail_service, parser_factory,
-                          transaction_repo)
-            gmail_service.move_to_label(email.get('id'), 'Job/Processed')
-
-    except Exception as error:
-        gmail_service.move_to_label(email.get('id'), 'Job/Error')
-        print(f'Something went wrong: {error}')
+    for email in email_list:
+        process_email(email, gmail_service, parser_factory, transaction_repo)
 
 
 if __name__ == '__main__':
