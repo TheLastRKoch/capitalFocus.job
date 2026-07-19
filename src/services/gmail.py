@@ -82,6 +82,11 @@ class GmailService:
 
         return text_part, html_part
 
+    def get_email_subject(self, email: Dict):
+        subjects = [header['value'] for header in email['payload']['headers'] if header['name'] == 'Subject']
+        if subjects and len(subjects) > 0:
+            return subjects[0]
+
     def get_email_content(self,
                           email: Dict) -> Tuple[Optional[str], Optional[str]]:
         """
@@ -98,23 +103,23 @@ class GmailService:
 
         payload = email.get('payload', {})
 
+        # Simple body do not contains text
         if 'body' in payload and 'data' in payload['body']:
             data = payload['body']['data']
             decoded_data = base64.urlsafe_b64decode(data).decode(
                 'utf-8', errors='replace')
-            return decoded_data, decoded_data  # Both text and html if simple body
+            return decoded_data, decoded_data
 
-        encoded_text = None
-        encoded_html = None
         if 'parts' in payload:
             encoded_text, encoded_html = self._find_body_parts(
                 payload['parts'])
-
-        if encoded_text:
-            text = base_64_decode(encoded_text)
-
-        if encoded_html:
-            html = base_64_decode(encoded_html)
+            if encoded_html:
+                html = base_64_decode(encoded_html)
+            if encoded_text:
+                text = base_64_decode(encoded_text)
+            else:
+                if html:
+                    text = html
 
         return text, html
 
