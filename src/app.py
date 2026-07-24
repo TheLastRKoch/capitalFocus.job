@@ -59,7 +59,6 @@ def process_email(email_id: str, gmail_service: GmailService,
         'commerce': json_mapped.get('commerce'),
         'amount': json_mapped.get('amount'),
         'location': json_mapped.get('location'),
-        'currency': json_mapped.get('currency'),
         'card': json_mapped.get('card'),
         'authorization': json_mapped.get('authorization'),
         'reference': json_mapped.get('reference'),
@@ -69,7 +68,7 @@ def process_email(email_id: str, gmail_service: GmailService,
         'html': html,
     }
 
-    transaction_repo.add(**transaction_data)
+    transaction_repo.submit([transaction_data])
     logging.info("Stop processing email: "+subject)
 
 
