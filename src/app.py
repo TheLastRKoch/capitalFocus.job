@@ -26,11 +26,11 @@ def process_email(email_id: str, gmail_service: GmailService,
         return
 
     subject = gmail_service.get_email_subject(message)
-    logging.info("Start processing email: "+subject)
+    logging.info("Start processing email: " + subject)
 
     text, html = gmail_service.get_email_content(message)
-    logger.debug("Retrieved text: "+text)
-    logger.debug("Retrieved HTML: "+html)
+    logger.debug("Retrieved text: " + text)
+    logger.debug("Retrieved HTML: " + html)
 
     operation_type = parser_factory.get_operation_type(text)
     logger.info(f'Selected operation type: {operation_type}')
@@ -70,8 +70,7 @@ def process_email(email_id: str, gmail_service: GmailService,
     }
 
     transaction_repo.add(**transaction_data)
-    logging.info("Stop processing email: "+subject)
-
+    logging.info("Stop processing email: " + subject)
 
 
 def main():
@@ -85,21 +84,19 @@ def main():
     email_list_response = gmail_service.get_email_list('label:job-new')
     email_list = email_list_response.get('messages', [])
     logger.info(f'Found {len(email_list)} emails to process')
-
     logging.info("Process start")
-
-    try:
-        for email in email_list:
-            process_email(email['id'], gmail_service, parser_factory,
-                          transaction_repo)
+    for email in email_list:
+        try:
+            process_email(email['id'], gmail_service, parser_factory, transaction_repo)
             gmail_service.move_to_label(email.get('id'), 'Job/Processed')
 
-    except Exception as error:
-        logging.error(f'Error processing email {error} {traceback.print_exc()}')
-        gmail_service.move_to_label(email.get('id'), 'Job/Error')
+        except Exception as error:
+            logging.error(
+                f'Error processing email {error} {traceback.print_exc()}')
+            gmail_service.move_to_label(email.get('id'), 'Job/Error')
 
-    finally:
-        logging.info("Process end\n\n")
+        finally:
+            logging.info("Process end\n\n")
 
 
 if __name__ == '__main__':
