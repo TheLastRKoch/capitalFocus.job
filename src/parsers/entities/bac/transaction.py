@@ -11,7 +11,7 @@ class TransactionParser(BaseParser):
 
     def __init__(self):
         self._BAC_TRANSACTION_PATTERN = r'(?:([A-z ]+))(?:\:\$\%|\$\%)(.+?)\$\%'
-        self.DATE_SOURCE_FORMAT = '%m %d, %Y, %H:%M'
+        self.DATE_SOURCE_FORMAT = '%m%d,%Y,%H:%M'
         self.date_utils = DateUtils()
 
     def parse(self, html_raw_text: str) -> Dict[str, Any]:
@@ -25,7 +25,7 @@ class TransactionParser(BaseParser):
             A dictionary of the transaction details.
         """
         content = HtmlUtils.extract_content_from_html(
-            html_raw_text=html_raw_text, tag_query='p')
+            html_raw_text=html_raw_text, tag_query='td')
 
         findings = re.findall(self._BAC_TRANSACTION_PATTERN, content,
                               re.DOTALL)

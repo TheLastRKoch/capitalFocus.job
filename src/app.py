@@ -46,8 +46,9 @@ def process_email(email_id: str, gmail_service: GmailService,
 
     logger.debug('Processed data:', data)
 
-    if not validator.validate(data):
-        raise ValueError('Data validation failed.')
+    result, error = validator.validate(data)
+    if not result:
+        raise ValueError('Data validation failed: '+error)
 
     logger.info('Passed validation')
 
@@ -83,8 +84,8 @@ def main():
 
     email_list_response = gmail_service.get_email_list('label:job-new')
     email_list = email_list_response.get('messages', [])
-    logger.info(f'Found {len(email_list)} emails to process')
     logging.info("Process start")
+    logger.info(f'Found {len(email_list)} emails to process')
     for email in email_list:
         try:
             process_email(email['id'], gmail_service, parser_factory, transaction_repo)
@@ -94,9 +95,7 @@ def main():
             logging.error(
                 f'Error processing email {error} {traceback.print_exc()}')
             gmail_service.move_to_label(email.get('id'), 'Job/Error')
-
-        finally:
-            logging.info("Process end\n\n")
+    logging.info("Process end\n\n")
 
 
 if __name__ == '__main__':
