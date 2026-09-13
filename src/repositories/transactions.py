@@ -1,32 +1,22 @@
-from typing import Dict, Any
-from environment import TEABLE_TRANSACTIONS
-from services.teable import TeableService
+from typing import Dict, Any, List
+from services.service_client import ServiceClient
 
 
 class TransactionsRepository:
-    """Repository for managing transaction records via Teable."""
+    """Repository for managing transaction records via capitalFocus.service API."""
 
     def __init__(self) -> None:
-        """Initialize the transactions repository with a Teable service instance."""
-        self.teable = TeableService()
+        """Initialize the transactions repository with a service client instance."""
+        self.service_client = ServiceClient()
 
-    def all(self) -> Dict[str, Any]:
+    def submit(self, transactions: List[Dict[str, Any]]) -> Dict[str, Any]:
         """
-        Retrieve a list of transactions from the Teable service.
-
-        Returns:
-            A dictionary containing the list of transactions.
-        """
-        return self.teable.read(TEABLE_TRANSACTIONS)
-
-    def add(self, **kwargs: Any) -> Dict[str, Any]:
-        """
-        Add a new transaction record.
+        Submit transactions to capitalFocus.service.
 
         Args:
-            **kwargs: Transaction fields.
+            transactions: A list of transaction dictionaries to submit.
 
         Returns:
-            The created record.
+            A dictionary containing the status and number of created records.
         """
-        return self.teable.add(TEABLE_TRANSACTIONS, **kwargs)
+        return self.service_client.submit_transactions(transactions)

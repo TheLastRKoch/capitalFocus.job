@@ -60,18 +60,17 @@ def process_email(email_id: str, gmail_service: GmailService,
         'commerce': json_mapped.get('commerce'),
         'amount': json_mapped.get('amount'),
         'location': json_mapped.get('location'),
-        'currency': json_mapped.get('currency'),
         'card': json_mapped.get('card'),
         'authorization': json_mapped.get('authorization'),
         'reference': json_mapped.get('reference'),
         'transactionType': json_mapped.get('transactionType'),
-        'status': json_mapped.get('status'),
+        'status': json_mapped.get('status', ''),
         'json': json.dumps(data),
         'html': html,
     }
 
-    transaction_repo.add(**transaction_data)
-    logging.info("Stop processing email: " + subject)
+    transaction_repo.submit([transaction_data])
+    logging.info("Stop processing email: "+subject)
 
 
 def main():
