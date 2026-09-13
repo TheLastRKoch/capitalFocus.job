@@ -6,7 +6,7 @@ load_dotenv()
 
 SERVICE_URL = env.get('SERVICE_URL', 'http://localhost:8000')
 
-TARGET_FORMAT = "%Y-%m-%d %H:%M:%S"
+TARGET_FORMAT = "%Y-%m-%d %H:%M"
 
 logging.basicConfig(
     filename=env.get('LOG_PATH'),
