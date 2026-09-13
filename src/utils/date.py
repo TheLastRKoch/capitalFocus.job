@@ -46,7 +46,7 @@ class DateUtils:
             return esp_table[month_key_to_search]
 
     def replace_month_key_with_number(self, date):
-        date_str = date.strip()
+        date_str = date.replace(" ", "")
         month_key = date_str[:3]
         month_number = self.get_month_number(month_key)
         return date_str.replace(month_key, month_number)

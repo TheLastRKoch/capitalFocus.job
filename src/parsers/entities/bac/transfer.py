@@ -73,5 +73,5 @@ class TransferParser(BaseParser):
         sender = data.get('sender', '')
         addressee = data.get('addressee', '')
         description = data.get('description', '')
-        mapped_json['commerce'] = f'{sender} to {addressee} {description}'
+        mapped_json['commerce'] = f'{description} {sender} to {addressee}'
         return mapped_json
