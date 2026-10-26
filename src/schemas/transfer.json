@@ -14,7 +14,7 @@
             "type": "string"
         },
         "amount": {
-            "type": "string"
+            "type": "number"
         },
         "description": {
             "type": "string"

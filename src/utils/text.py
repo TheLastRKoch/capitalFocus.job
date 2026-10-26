@@ -9,10 +9,10 @@ class TextUtils:
         Normalize text to remove non-spacing marks (e.g., accents).
 
         Args:
-            text (str): The input text to be normalized.
+            text: The input text to be normalized.
 
         Returns:
-            str: The normalized text.
+            The normalized text.
         """
         proceed_text = unicodedata.normalize('NFD', text)
         return ''.join(c for c in proceed_text

@@ -23,7 +23,7 @@
             "type": "string"
         },
         "Monto": {
-            "type": "string"
+            "type": "number"
         }
     },
     "required": [
